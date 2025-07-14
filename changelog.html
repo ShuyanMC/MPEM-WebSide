@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MPEM | 更新日志</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#4F46E5',
+            secondary: '#818CF8',
+            accent: '#C7D2FE',
+            dark: '#1E1B4B',
+            light: '#EEF2FF'
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .glass {
+        backdrop-filter: blur(12px);
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+      .glass-dark {
+        backdrop-filter: blur(12px);
+        background-color: rgba(30, 27, 75, 0.6);
+      }
+      .text-shadow {
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .transition-custom {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-dark to-primary min-h-screen text-light overflow-x-hidden">
+  <!-- 导航栏 -->
+  <header id="navbar" class="fixed w-full z-50 transition-all duration-300">
+    <nav class="glass-dark py-4 px-6 md:px-12 flex justify-between items-center">
+      <div class="flex items-center">
+        <div class="w-12 h-12 rounded-lg bg-secondary/30 flex items-center justify-center mr-4">
+          <!-- 这里放置图标 -->
+          <span class="text-2xl font-bold">MPEM</span>
+        </div>
+        <span class="text-xl font-bold text-shadow">Moonlit Performance Enhancement Module</span>
+      </div>
+      
+      <!-- 桌面导航 -->
+      <div class="hidden md:flex items-center space-x-8">
+        <a href="index.html" class="hover:text-accent transition-custom">主页</a>
+        <a href="features.html" class="hover:text-accent transition-custom">特性</a>
+        <a href="compatibility.html" class="hover:text-accent transition-custom">兼容性</a>
+        <a href="changelog.html" class="hover:text-accent transition-custom">更新日志</a>
+        <a href="blacklist.html" class="hover:text-accent transition-custom">黑名单</a>
+        <a href="tutorial.html" class="hover:text-accent transition-custom">使用教程</a>
+        <a href="faq.html" class="hover:text-accent transition-custom">常见问题</a>
+      </div>
+      
+      <!-- QQ群按钮 -->
+      <a href="https://qm.qq.com/q/K3MteoArei" target="_blank" class="hidden md:flex items-center bg-primary/70 hover:bg-primary px-5 py-2 rounded-full transition-custom">
+        <i class="fa fa-qq mr-2"></i>
+        <span>加入QQ群</span>
+      </a>
+      
+      <!-- 移动端菜单按钮 -->
+      <button id="menu-toggle" class="md:hidden text-2xl">
+        <i class="fa fa-bars"></i>
+      </button>
+    </nav>
+    
+    <!-- 移动端菜单 -->
+    <div id="mobile-menu" class="hidden md:hidden glass-dark">
+      <div class="flex flex-col py-4 px-6 space-y-4">
+        <a href="index.html" class="hover:text-accent transition-custom py-2">主页</a>
+        <a href="features.html" class="hover:text-accent transition-custom py-2">特性</a>
+        <a href="compatibility.html" class="hover:text-accent transition-custom py-2">兼容性</a>
+        <a href="changelog.html" class="hover:text-accent transition-custom py-2">更新日志</a>
+        <a href="blacklist.html" class="hover:text-accent transition-custom py-2">黑名单</a>
+        <a href="tutorial.html" class="hover:text-accent transition-custom">使用教程</a>
+        <a href="faq.html" class="hover:text-accent transition-custom">常见问题</a>
+        <a href="https://qm.qq.com/q/K3MteoArei" target="_blank" class="flex items-center bg-primary/70 hover:bg-primary px-5 py-3 rounded-full transition-custom justify-center">
+          <i class="fa fa-qq mr-2"></i>
+          <span>加入QQ群</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 更新日志页面 -->
+  <section id="changelog" class="pt-32 pb-20 px-6 md:px-12">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-[clamp(1.8rem,4vw,3rem)] font-bold text-center mb-16">更新日志</h2>
+      
+      <div class="space-y-8">
+        <!-- 版本1 -->
+        <div class="glass rounded-xl overflow-hidden">
+          <div class="bg-primary/30 p-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+              <div>
+                <h3 class="text-2xl font-bold">v2.2.0 更新</h3>
+                <p class="text-light/70 mt-1">发布日期: 2025-07-14</p>
+              </div>
+              <span class="mt-3 md:mt-0 px-4 py-1 rounded-full bg-blue-500/30 text-blue-300 text-sm">重大更新</span>
+            </div>
+          </div>
+          <div class="p-6">
+            <h4 class="font-bold mb-4 text-lg">主要更新内容</h4>
+            <ul class="space-y-2 text-light/80">
+              <li class="flex items-start">
+                <i class="fa fa-check-circle text-green-400 mt-1 mr-2"></i>
+                <span>添加渲染优化-剔除功能</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fa fa-check-circle text-green-400 mt-1 mr-2"></i>
+                <span>修复了观察者模式玩家被Tick停止的问题</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fa fa-check-circle text-green-400 mt-1 mr-2"></i>
+                <span>改进Tick暂停算法</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fa fa-check-circle text-green-400 mt-1 mr-2"></i>
+                <span>添加了更多配置选项，可自定义优化级别</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fa fa-check-circle text-green-400 mt-1 mr-2"></i>
+                <span>使用高级的剔除算法</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- 版本2 -->
+        <div class="glass rounded-xl overflow-hidden">
+          <div class="bg-primary/30 p-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+              <div>
+                <h3 class="text-2xl font-bold">v2.1.8hotfox 更新</h3>
+                <p class="text-light/70 mt-1">发布日期: 2025-07-12</p>
+              </div>
+              <span class="mt-3 md:mt-0 px-4 py-1 rounded-full bg-yellow-500/30 text-yellow-300 text-sm">热修复</span>
+            </div>
+          </div>
+          <div class="p-6">
+            <h4 class="font-bold mb-4 text-lg">修复内容</h4>
+            <ul class="space-y-2 text-light/80">
+              <li class="flex items-start">
+                <i class="fa fa-check-circle text-green-400 mt-1 mr-2"></i>
+                <span>修复实体死亡时被Tick停止导致半死不活的Bug</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- 版本3 -->
+        <div class="glass rounded-xl overflow-hidden">
+          <div class="bg-primary/30 p-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+              <div>
+                <h3 class="text-2xl font-bold">v2.1.8 更新</h3>
+                <p class="text-light/70 mt-1">发布日期: 2025-05-10</p>
+              </div>
+              <span class="mt-3 md:mt-0 px-4 py-1 rounded-full bg-green-500/30 text-green-300 text-sm">稳定版本更新</span>
+            </div>
+          </div>
+          <div class="p-6">
+            <h4 class="font-bold mb-4 text-lg">主要更新内容</h4>
+            <ul class="space-y-2 text-light/80">
+              <li class="flex items-start">
+                <i class="fa fa-check-circle text-green-400 mt-1 mr-2"></i>
+                <span>Fix some bugs</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fa fa-check-circle text-green-400 mt-1 mr-2"></i>
+                <span>Fix "#" bug</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fa fa-check-circle text-green-400 mt-1 mr-2"></i>
+                <span>Nothing</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-12 text-center">
+        <button id="load-more-changelog" class="glass-dark px-8 py-3 rounded-lg flex items-center mx-auto">
+          <span>查看更多历史版本</span>
+          <i class="fa fa-history ml-2"></i>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="py-12 px-6 md:px-12 glass-dark">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-8 md:mb-0">
+          <div class="flex items-center">
+            <div class="w-12 h-12 rounded-lg bg-secondary/30 flex items-center justify-center mr-4">
+              <!-- 这里放置图标 -->
+              <span class="text-2xl font-bold">MPEM</span>
+            </div>
+            <span class="text-xl font-bold text-shadow">Moonlit Performance Enhancement Module</span>
+          </div>
+          <p class="mt-4 text-light/70 max-w-md">
+            MPEM 月夜性能优化模组致力于为 Minecraft 玩家提供卓越的游戏体验优化解决方案。
+          </p>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+          <div>
+            <h4 class="font-bold text-lg mb-4">模组链接</h4>
+            <ul class="space-y-2">
+              <li><a href="index.html" class="text-light/70 hover:text-accent transition-custom">主页</a></li>
+              <li><a href="features.html" class="text-light/70 hover:text-accent transition-custom">特性</a></li>
+              <li><a href="compatibility.html" class="text-light/70 hover:text-accent transition-custom">兼容性</a></li>
+              <li><a href="changelog.html" class="text-light/70 hover:text-accent transition-custom">更新日志</a></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 class="font-bold text-lg mb-4">支持</h4>
+            <ul class="space-y-2">
+              <li><a href="blacklist.html" class="text-light/70 hover:text-accent transition-custom">封禁名单</a></li>
+              <li><a href="#" class="text-light/70 hover:text-accent transition-custom">使用教程</a></li>
+              <li><a href="#" class="text-light/70 hover:text-accent transition-custom">常见问题</a></li>
+              <li><a href="#" class="text-light/70 hover:text-accent transition-custom">联系我们</a></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 class="font-bold text-lg mb-4">加入我们</h4>
+            <div class="flex space-x-4 mb-4">
+              <a href="https://qm.qq.com/q/K3MteoArei" target="_blank" class="glass w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/50 transition-custom">
+                <i class="fa fa-qq"></i>
+              </a>
+              <a href="https://2git.xyz/ShuyanMC" class="glass w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/50 transition-custom">
+                <i class="fa fa-github"></i>
+              </a>
+              <a href="https://space.bilibili.com/1429023960?spm_id_from=333.1007.0.0" class="glass w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/50 transition-custom">
+                <i class="fa fa-bilibili"></i>
+              </a>
+            </div>
+            <a href="https://qm.qq.com/q/K3MteoArei" target="_blank" class="glass hover:bg-primary/80 text-white px-6 py-2 rounded-lg flex items-center transition-custom">
+              <i class="fa fa-qq mr-2"></i>
+              <span>加入官方QQ群</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-12 pt-8 border-t border-light/10 text-center text-light/60 text-sm">
+        <p>© 2025 ShuyanMC 版权所有 ARR</p>
+        <p class="mt-2">本网站以及模组最终解释权归 ShuyanMC 所有</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // 导航栏滚动效果
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('shadow-lg');
+      } else {
+        navbar.classList.remove('shadow-lg');
+      }
+    });
+    
+    // 移动端菜单切换
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      if (mobileMenu.classList.contains('hidden')) {
+        menuToggle.innerHTML = '<i class="fa fa-bars"></i>';
+      } else {
+        menuToggle.innerHTML = '<i class="fa fa-times"></i>';
+      }
+    });
+    
+    // 加载更多更新日志
+    document.getElementById('load-more-changelog').addEventListener('click', function() {
+      this.innerHTML = '<i class="fa fa-spinner fa-spin mr-2"></i> 加载中...';
+      
+      // 模拟加载延迟
+      setTimeout(() => {
+        this.innerHTML = '<span>查看更多历史版本</span><i class="fa fa-history ml-2"></i>';
+        alert('已加载全部历史版本');
+      }, 1500);
+    });
+  </script>
+</body>
+</html>
+    

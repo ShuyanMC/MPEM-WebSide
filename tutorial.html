@@ -1,0 +1,563 @@
+<!-- 使用教程页面 (tutorial.html) -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MPEM | 使用教程</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#4F46E5',
+            secondary: '#818CF8',
+            accent: '#C7D2FE',
+            dark: '#1E1B4B',
+            light: '#EEF2FF'
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .glass {
+        backdrop-filter: blur(12px);
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+      .glass-dark {
+        backdrop-filter: blur(12px);
+        background-color: rgba(30, 27, 75, 0.6);
+      }
+      .text-shadow {
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .transition-custom {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .step-number {
+        width: 2.5rem;
+        height: 2.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background-color: theme('colors.primary');
+        color: white;
+        font-weight: bold;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-dark to-primary min-h-screen text-light overflow-x-hidden">
+  <!-- 导航栏 -->
+  <header id="navbar" class="fixed w-full z-50 transition-all duration-300">
+    <nav class="glass-dark py-4 px-6 md:px-12 flex justify-between items-center">
+      <div class="flex items-center">
+        <div class="w-12 h-12 rounded-lg bg-secondary/30 flex items-center justify-center mr-4">
+          <span class="text-2xl font-bold">MPEM</span>
+        </div>
+        <span class="text-xl font-bold text-shadow">MPEM</span>
+      </div>
+      
+      <!-- 桌面导航 -->
+      <div class="hidden md:flex items-center space-x-8">
+        <a href="index.html" class="hover:text-accent transition-custom">主页</a>
+        <a href="features.html" class="hover:text-accent transition-custom">特性</a>
+        <a href="compatibility.html" class="hover:text-accent transition-custom">兼容性</a>
+        <a href="changelog.html" class="hover:text-accent transition-custom">更新日志</a>
+        <a href="blacklist.html" class="hover:text-accent transition-custom">黑名单</a>
+        <a href="tutorial.html" class="hover:text-accent transition-custom">使用教程</a>
+        <a href="faq.html" class="hover:text-accent transition-custom">常见问题</a>
+      </div>
+      
+      <!-- QQ群按钮 -->
+      <a href="https://qm.qq.com/q/K3MteoArei" target="_blank" class="hidden md:flex items-center bg-primary/70 hover:bg-primary px-5 py-2 rounded-full transition-custom">
+        <i class="fa fa-qq mr-2"></i>
+        <span>加入QQ群</span>
+      </a>
+      
+      <!-- 移动端菜单按钮 -->
+      <button id="menu-toggle" class="md:hidden text-2xl">
+        <i class="fa fa-bars"></i>
+      </button>
+    </nav>
+    
+    <!-- 移动端菜单 -->
+    <div id="mobile-menu" class="hidden md:hidden glass-dark">
+      <div class="flex flex-col py-4 px-6 space-y-4">
+        <a href="index.html" class="hover:text-accent transition-custom py-2">主页</a>
+        <a href="features.html" class="hover:text-accent transition-custom py-2">特性</a>
+        <a href="compatibility.html" class="hover:text-accent transition-custom py-2">兼容性</a>
+        <a href="changelog.html" class="hover:text-accent transition-custom py-2">更新日志</a>
+        <a href="blacklist.html" class="hover:text-accent transition-custom py-2">黑名单</a>
+        <a href="tutorial.html" class="hover:text-accent transition-custom py-2">使用教程</a>
+        <a href="faq.html" class="hover:text-accent transition-custom py-2">常见问题</a>
+        <a href="https://qm.qq.com/cgi-bin/qm/qr?k=YOUR_QQ_GROUP_KEY" target="_blank" class="flex items-center bg-primary/70 hover:bg-primary px-5 py-3 rounded-full transition-custom justify-center">
+          <i class="fa fa-qq mr-2"></i>
+          <span>加入QQ群</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 使用教程页面内容 -->
+  <section id="tutorial" class="pt-32 pb-20 px-6 md:px-12">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-[clamp(1.8rem,4vw,3rem)] font-bold text-center mb-16">MPEM模组使用教程</h2>
+      
+      <!-- 下载部分 -->
+      <div class="glass rounded-xl overflow-hidden mb-12">
+        <div class="bg-primary/30 p-6">
+          <h3 class="text-2xl font-bold">第一步：下载模组</h3>
+        </div>
+        <div class="p-6">
+          <div class="flex flex-col md:flex-row gap-6">
+            <div class="md:w-2/3">
+              <p class="mb-4">你可以从以下渠道下载MPEM模组：</p>
+              <ul class="space-y-3">
+                <li class="flex items-start">
+                  <i class="fa fa-check-circle text-green-400 mt-1 mr-2"></i>
+                  <span>官方QQ群文件（内测版）：加入<a href="https://qm.qq.com/q/K3MteoArei" target="_blank" class="text-accent hover:underline">MPEM官方QQ群</a>，在群文件中下载最新版本</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fa fa-check-circle text-green-400 mt-1 mr-2"></i>
+                  <span>Modrinth：<a href="https://modrinth.com/mod/mpem" class="text-accent hover:underline">Modrinth地址</a></span>
+                </li>
+              </ul>
+              
+              <div class="mt-6 glass-dark p-4 rounded-lg">
+                <p class="font-bold mb-2">注意事项：</p>
+                <ul class="space-y-2 text-light/80">
+                  <li>• 请务必从官方渠道下载模组，以确保安全性和稳定性</li>
+                  <li>• 下载时请选择与你游戏版本和加载器匹配的模组版本</li>
+                  <li>• 避免从非官方网站下载，防止下载到恶意修改的版本</li>
+                </ul>
+              </div>
+            </div>
+            <div class="md:w-1/3 flex justify-center">
+              <div class="glass-dark p-6 rounded-xl text-center w-full max-w-sm">
+                <div class="text-5xl mb-4">📥</div>
+                <h4 class="text-xl font-bold mb-2">最新版本</h4>
+                <p class="text-2xl font-bold mb-4">v2.2.0</p>
+                <p class="text-light/70 mb-6">适用于 Minecraft Forge:1.19.4~1.20.2 & NFG:1.20.1 & Fabric 1.20.1 and 1.21~1.21.1 & Quilt 1.20.1 and 1.21</p>
+                <a href="https://modrinth.com/mod/mpem" class="block bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg transition-custom mb-3">
+                  <i class="fa fa-download mr-2"></i> 下载模组
+                </a>
+                <a href="changelog.html" class="block glass hover:glass-dark text-white px-6 py-3 rounded-lg transition-custom">
+                  <i class="fa fa-history mr-2"></i> 查看更新日志
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 安装部分 -->
+      <div class="glass rounded-xl overflow-hidden mb-12">
+        <div class="bg-primary/30 p-6">
+          <h3 class="text-2xl font-bold">第二步：安装模组</h3>
+        </div>
+        <div class="p-6">
+          <p class="mb-6">MPEM模组支持多种Mod加载器，以下是不同加载器的安装方法：</p>
+          
+          <!-- 选项卡 -->
+          <div class="mb-6">
+            <div class="flex flex-wrap gap-2" id="loader-tabs">
+              <button class="loader-tab active px-6 py-3 rounded-lg bg-primary text-white transition-custom" data-loader="forge">Forge</button>
+              <button class="loader-tab px-6 py-3 rounded-lg glass-dark hover:bg-primary/50 transition-custom" data-loader="fabric">Fabric</button>
+              <button class="loader-tab px-6 py-3 rounded-lg glass-dark hover:bg-primary/50 transition-custom" data-loader="neoforge">NeoForge</button>
+            </div>
+          </div>
+          
+          <!-- 安装步骤 -->
+          <div id="forge-steps" class="loader-steps">
+            <div class="space-y-6">
+              <div class="flex gap-4">
+                <div class="step-number">1</div>
+                <div>
+                  <h4 class="text-lg font-bold mb-2">安装Forge</h4>
+                  <p>首先需要安装对应游戏版本的Forge加载器。你可以从<a href="https://files.minecraftforge.net/" target="_blank" class="text-accent hover:underline">Forge官方网站</a>下载适合你游戏版本的安装程序。</p>
+                </div>
+              </div>
+              
+              <div class="flex gap-4">
+                <div class="step-number">2</div>
+                <div>
+                  <h4 class="text-lg font-bold mb-2">运行Forge安装程序</h4>
+                  <p>双击下载的Forge安装程序，按照提示完成安装。通常选择"Install Client"选项，然后点击"OK"。</p>
+                </div>
+              </div>
+              
+              <div class="flex gap-4">
+                <div class="step-number">3</div>
+                <div>
+                  <h4 class="text-lg font-bold mb-2">找到mods文件夹</h4>
+                  <p>启动一次安装了Forge的游戏，然后退出。在游戏目录中找到"mods"文件夹。游戏目录位置通常为：</p>
+                  <ul class="mt-2 ml-6 list-disc space-y-1 text-light/80">
+                    <li>Windows: %appdata%\.minecraft\mods</li>
+                    <li>macOS: ~/Library/Application Support/minecraft/mods</li>
+                    <li>Linux: ~/.minecraft/mods</li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div class="flex gap-4">
+                <div class="step-number">4</div>
+                <div>
+                  <h4 class="text-lg font-bold mb-2">放置模组文件</h4>
+                  <p>将下载的MPEM模组文件（.jar格式）复制到"mods"文件夹中。</p>
+                </div>
+              </div>
+              
+              <div class="flex gap-4">
+                <div class="step-number">5</div>
+                <div>
+                  <h4 class="text-lg font-bold mb-2">启动游戏</h4>
+                  <p>通过Forge配置文件启动游戏，MPEM模组将自动加载。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div id="fabric-steps" class="loader-steps hidden">
+            <div class="space-y-6">
+              <div class="flex gap-4">
+                <div class="step-number">1</div>
+                <div>
+                  <h4 class="text-lg font-bold mb-2">安装Fabric Loader</h4>
+                  <p>首先需要安装对应游戏版本的Fabric Loader。你可以从<a href="https://fabricmc.net/use/" target="_blank" class="text-accent hover:underline">Fabric官方网站</a>下载Fabric Installer。</p>
+                </div>
+              </div>
+              
+              <div class="flex gap-4">
+                <div class="step-number">2</div>
+                <div>
+                  <h4 class="text-lg font-bold mb-2">运行Fabric Installer</h4>
+                  <p>双击下载的Fabric Installer，选择对应的游戏版本，然后点击"Install"。</p>
+                </div>
+              </div>
+              
+              <div class="flex gap-4">
+                <div class="step-number">3</div>
+                <div>
+                  <h4 class="text-lg font-bold mb-2">安装Fabric API</h4>
+                  <p>从<a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api" target="_blank" class="text-accent hover:underline">CurseForge</a>下载对应游戏版本的Fabric API模组，并将其放入"mods"文件夹。</p>
+                </div>
+              </div>
+              
+              <div class="flex gap-4">
+                <div class="step-number">4</div>
+                <div>
+                  <h4 class="text-lg font-bold mb-2">找到mods文件夹</h4>
+                  <p>启动一次安装了Fabric的游戏，然后退出。在游戏目录中找到"mods"文件夹。游戏目录位置通常为：</p>
+                  <ul class="mt-2 ml-6 list-disc space-y-1 text-light/80">
+                    <li>Windows: %appdata%\.minecraft\mods</li>
+                    <li>macOS: ~/Library/Application Support/minecraft/mods</li>
+                    <li>Linux: ~/.minecraft/mods</li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div class="flex gap-4">
+                <div class="step-number">5</div>
+                <div>
+                  <h4 class="text-lg font-bold mb-2">放置模组文件</h4>
+                  <p>将下载的MPEM模组文件（.jar格式）复制到"mods"文件夹中。</p>
+                </div>
+              </div>
+              
+              <div class="flex gap-4">
+                <div class="step-number">6</div>
+                <div>
+                  <h4 class="text-lg font-bold mb-2">启动游戏</h4>
+                  <p>通过Fabric配置文件启动游戏，MPEM模组将自动加载。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div id="neoforge-steps" class="loader-steps hidden">
+            <div class="space-y-6">
+              <div class="flex gap-4">
+                <div class="step-number">1</div>
+                <div>
+                  <h4 class="text-lg font-bold mb-2">安装NeoForge</h4>
+                  <p>首先需要安装对应游戏版本的NeoForge加载器。你可以从<a href="https://www.neoforged.net/" target="_blank" class="text-accent hover:underline">NeoForge官方网站</a>下载适合你游戏版本的安装程序。</p>
+                </div>
+              </div>
+              
+              <div class="flex gap-4">
+                <div class="step-number">2</div>
+                <div>
+                  <h4 class="text-lg font-bold mb-2">运行NeoForge安装程序</h4>
+                  <p>双击下载的NeoForge安装程序，按照提示完成安装。通常选择"Install Client"选项，然后点击"OK"。</p>
+                </div>
+              </div>
+              
+              <div class="flex gap-4">
+                <div class="step-number">3</div>
+                <div>
+                  <h4 class="text-lg font-bold mb-2">找到mods文件夹</h4>
+                  <p>启动一次安装了NeoForge的游戏，然后退出。在游戏目录中找到"mods"文件夹。游戏目录位置通常为：</p>
+                  <ul class="mt-2 ml-6 list-disc space-y-1 text-light/80">
+                    <li>Windows: %appdata%\.minecraft\mods</li>
+                    <li>macOS: ~/Library/Application Support/minecraft/mods</li>
+                    <li>Linux: ~/.minecraft/mods</li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div class="flex gap-4">
+                <div class="step-number">4</div>
+                <div>
+                  <h4 class="text-lg font-bold mb-2">放置模组文件</h4>
+                  <p>将下载的MPEM模组文件（.jar格式）复制到"mods"文件夹中。</p>
+                </div>
+              </div>
+              
+              <div class="flex gap-4">
+                <div class="step-number">5</div>
+                <div>
+                  <h4 class="text-lg font-bold mb-2">启动游戏</h4>
+                  <p>通过NeoForge配置文件启动游戏，MPEM模组将自动加载。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 配置部分 -->
+      <div class="glass rounded-xl overflow-hidden mb-12">
+        <div class="bg-primary/30 p-6">
+          <h3 class="text-2xl font-bold">第三步：模组配置</h3>
+        </div>
+        <div class="p-6">
+          <p class="mb-6">MPEM模组提供了丰富的配置选项，你可以根据自己的需求进行调整：</p>
+          
+          <div class="space-y-6">
+            <div class="flex gap-4">
+              <div class="step-number">1</div>
+              <div>
+                <h4 class="text-lg font-bold mb-2">找到配置文件</h4>
+                <p>启动游戏一次后，模组会生成配置文件。配置文件位于游戏目录下的"config"文件夹中，文件名为"mpem-common.toml或mpem.toml"。</p>
+              </div>
+            </div>
+            
+            <div class="flex gap-4">
+              <div class="step-number">2</div>
+              <div>
+                <h4 class="text-lg font-bold mb-2">使用Mod菜单（可选）</h4>
+                <p>如果你安装了Mod菜单模组（如ModMenu），可以在游戏内通过Mod菜单直接修改MPEM的配置。</p>
+              </div>
+            </div>
+            
+            <div class="flex gap-4">
+              <div class="step-number">3</div>
+              <div>
+                <h4 class="text-lg font-bold mb-2">配置选项说明</h4>
+                <p>MPEM模组的主要配置选项包括：</p>
+                <ul class="mt-2 ml-6 list-disc space-y-1 text-light/80">
+                  <li>剔除优化配置：可根据需要开关</li>
+                  <li>tick优化配置：调整tick优化范围以及开关</li>
+                  <li>异步优化配置：调整线程数分配</li>
+                  <li>后台算力限制：调整后台时MC的渲染距离以及后台Fps限制</li>
+                  
+                </ul>
+              </div>
+            </div>
+            
+            <div class="flex gap-4">
+              <div class="step-number">4</div>
+              <div>
+                <h4 class="text-lg font-bold mb-2">保存配置</h4>
+                <p>修改配置后，保存文件并重启游戏或游戏内执行 /reload 使更改生效。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 常见问题部分 -->
+      <div class="glass rounded-xl overflow-hidden">
+        <div class="bg-primary/30 p-6">
+          <h3 class="text-2xl font-bold">遇到问题？</h3>
+        </div>
+        <div class="p-6">
+          <p class="mb-6">如果在安装或使用过程中遇到问题，请查看我们的<a href="faq.html" class="text-accent hover:underline">常见问题</a>页面，或加入<a href="https://qm.qq.com/q/K3MteoArei" target="_blank" class="text-accent hover:underline">官方QQ群</a>寻求帮助。</p>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a href="faq.html" class="glass-dark hover:bg-primary/50 p-4 rounded-lg flex items-center transition-custom">
+              <i class="fa fa-question-circle text-2xl mr-3"></i>
+              <div>
+                <h4 class="font-bold">查看常见问题</h4>
+                <p class="text-sm text-light/70">解答常见安装和使用问题</p>
+              </div>
+            </a>
+            
+            <a href="https://qm.qq.com/q/K3MteoArei" target="_blank" class="glass-dark hover:bg-primary/50 p-4 rounded-lg flex items-center transition-custom">
+              <i class="fa fa-qq text-2xl mr-3"></i>
+              <div>
+                <h4 class="font-bold">加入官方QQ群</h4>
+                <p class="text-sm text-light/70">获取实时技术支持</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="py-12 px-6 md:px-12 glass-dark">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-8 md:mb-0">
+          <div class="flex items-center">
+            <div class="w-12 h-12 rounded-lg bg-secondary/30 flex items-center justify-center mr-4">
+              <span class="text-2xl font-bold">MPEM</span>
+            </div>
+            <span class="text-xl font-bold text-shadow">Moonlit Performance Enhancement Module</span>
+          </div>
+          <p class="mt-4 text-light/70 max-w-md">
+            MPEM 月夜性能优化模组致力于为 Minecraft 玩家提供卓越的游戏体验优化解决方案。
+          </p>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+          <div>
+            <h4 class="font-bold text-lg mb-4">模组链接</h4>
+            <ul class="space-y-2">
+              <li><a href="index.html" class="text-light/70 hover:text-accent transition-custom">主页</a></li>
+              <li><a href="features.html" class="text-light/70 hover:text-accent transition-custom">特性</a></li>
+              <li><a href="compatibility.html" class="text-light/70 hover:text-accent transition-custom">兼容性</a></li>
+              <li><a href="changelog.html" class="text-light/70 hover:text-accent transition-custom">更新日志</a></li>
+              <li><a href="tutorial.html" class="text-light/70 hover:text-accent transition-custom">使用教程</a></li>
+              <li><a href="faq.html" class="text-light/70 hover:text-accent transition-custom">常见问题</a></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 class="font-bold text-lg mb-4">支持</h4>
+            <ul class="space-y-2">
+              <li><a href="blacklist.html" class="text-light/70 hover:text-accent transition-custom">封禁名单</a></li>
+              <li><a href="#" class="text-light/70 hover:text-accent transition-custom">使用教程</a></li>
+              <li><a href="faq.html" class="text-light/70 hover:text-accent transition-custom">常见问题</a></li>
+              <li><a href="#" class="text-light/70 hover:text-accent transition-custom">联系我们</a></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 class="font-bold text-lg mb-4">加入我们</h4>
+            <div class="flex space-x-4 mb-4">
+              <a href="https://qm.qq.com/q/K3MteoArei" target="_blank" class="glass w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/50 transition-custom">
+                <i class="fa fa-qq"></i>
+              </a>
+              <a href="https://2git.xyz/ShuyanMC" class="glass w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/50 transition-custom">
+                <i class="fa fa-github"></i>
+              </a>
+              <a href="https://space.bilibili.com/1429023960?spm_id_from=333.1007.0.0" class="glass w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/50 transition-custom">
+                <i class="fa fa-bilibili"></i>
+              </a>
+            </div>
+            <a href="https://qm.qq.com/q/K3MteoArei" target="_blank" class="glass hover:bg-primary/80 text-white px-6 py-2 rounded-lg flex items-center transition-custom">
+              <i class="fa fa-qq mr-2"></i>
+              <span>加入官方QQ群</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-12 pt-8 border-t border-light/10 text-center text-light/60 text-sm">
+        <p>© 2025 ShuyanMC 版权所有 ARR</p>
+        <p class="mt-2">本网站内容仅供学习交流使用，模组最终解释权归 ShuyanMC 所有</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // 导航栏滚动效果
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('shadow-lg');
+      } else {
+        navbar.classList.remove('shadow-lg');
+      }
+    });
+    
+    // 移动端菜单切换
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      if (mobileMenu.classList.contains('hidden')) {
+        menuToggle.innerHTML = '<i class="fa fa-bars"></i>';
+      } else {
+        menuToggle.innerHTML = '<i class="fa fa-times"></i>';
+      }
+    });
+    
+    // 平滑滚动
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        // 关闭移动端菜单
+        if (!mobileMenu.classList.contains('hidden')) {
+          mobileMenu.classList.add('hidden');
+          menuToggle.innerHTML = '<i class="fa fa-bars"></i>';
+        }
+        
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+    
+    // 加载器选项卡切换
+    const loaderTabs = document.querySelectorAll('.loader-tab');
+    const loaderSteps = document.querySelectorAll('.loader-steps');
+    
+    loaderTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        // 移除所有活动状态
+        loaderTabs.forEach(t => {
+          t.classList.remove('active', 'bg-primary', 'text-white');
+          t.classList.add('glass-dark', 'hover:bg-primary/50');
+        });
+        
+        // 添加当前活动状态
+        tab.classList.add('active', 'bg-primary', 'text-white');
+        tab.classList.remove('glass-dark', 'hover:bg-primary/50');
+        
+        // 隐藏所有步骤
+        loaderSteps.forEach(step => {
+          step.classList.add('hidden');
+        });
+        
+        // 显示对应步骤
+        const loader = tab.getAttribute('data-loader');
+        document.getElementById(`${loader}-steps`).classList.remove('hidden');
+      });
+    });
+  </script>
+</body>
+</html>

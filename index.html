@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MPEM | Minecraft性能优化模组</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#4F46E5',
+            secondary: '#818CF8',
+            accent: '#C7D2FE',
+            dark: '#1E1B4B',
+            light: '#EEF2FF'
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .glass {
+        backdrop-filter: blur(12px);
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+      .glass-dark {
+        backdrop-filter: blur(12px);
+        background-color: rgba(30, 27, 75, 0.6);
+      }
+      .text-shadow {
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .transition-custom {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-dark to-primary min-h-screen text-light overflow-x-hidden">
+  <!-- 导航栏 -->
+  <header id="navbar" class="fixed w-full z-50 transition-all duration-300">
+    <nav class="glass-dark py-4 px-6 md:px-12 flex justify-between items-center">
+      <div class="flex items-center">
+        <div class="w-12 h-12 rounded-lg bg-secondary/30 flex items-center justify-center mr-4">
+          <!-- logo -->
+          <span class="text-2xl font-bold">MPEM</span>
+        </div>
+        <span class="text-xl font-bold text-shadow">Moonlit Performance Enhancement Module</span>
+      </div>
+      
+      <!-- 桌面导航 -->
+      <div class="hidden md:flex items-center space-x-8">
+        <a href="index.html" class="hover:text-accent transition-custom">主页</a>
+        <a href="features.html" class="hover:text-accent transition-custom">特性</a>
+        <a href="compatibility.html" class="hover:text-accent transition-custom">兼容性</a>
+        <a href="changelog.html" class="hover:text-accent transition-custom">更新日志</a>
+        <a href="blacklist.html" class="hover:text-accent transition-custom">黑名单</a>
+        <a href="tutorial.html" class="hover:text-accent transition-custom">使用教程</a>
+        <a href="faq.html" class="hover:text-accent transition-custom">常见问题</a>
+      </div>
+      
+      <!-- QQ群按钮 -->
+      <a href="https://qm.qq.com/q/K3MteoArei" target="_blank" class="hidden md:flex items-center bg-primary/70 hover:bg-primary px-5 py-2 rounded-full transition-custom">
+        <i class="fa fa-qq mr-2"></i>
+        <span>加入QQ群</span>
+      </a>
+      
+      <!-- 移动端菜单按钮 -->
+      <button id="menu-toggle" class="md:hidden text-2xl">
+        <i class="fa fa-bars"></i>
+      </button>
+    </nav>
+    
+    <!-- 移动端菜单 -->
+    <div id="mobile-menu" class="hidden md:hidden glass-dark">
+      <div class="flex flex-col py-4 px-6 space-y-4">
+        <a href="index.html" class="hover:text-accent transition-custom py-2">主页</a>
+        <a href="features.html" class="hover:text-accent transition-custom py-2">特性</a>
+        <a href="compatibility.html" class="hover:text-accent transition-custom py-2">兼容性</a>
+        <a href="changelog.html" class="hover:text-accent transition-custom py-2">更新日志</a>
+        <a href="blacklist.html" class="hover:text-accent transition-custom py-2">黑名单</a>
+        <a href="https://qm.qq.com/q/K3MteoArei" target="_blank" class="flex items-center bg-primary/70 hover:bg-primary px-5 py-3 rounded-full transition-custom justify-center">
+          <i class="fa fa-qq mr-2"></i>
+          <span>加入QQ群</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 主页内容 -->
+  <section id="home" class="pt-32 pb-20 px-6 md:px-12">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row items-center">
+        <div class="md:w-1/2 mb-12 md:mb-0">
+          <h1 class="text-[clamp(2.5rem,5vw,4rem)] font-bold leading-tight mb-6">
+            MPEM<br>
+            <span class="text-accent">月夜性能优化模组</span>
+          </h1>
+          <p class="text-xl mb-8 text-light/80 max-w-lg">
+            专为 Minecraft 打造的高性能优化模组，显著提升游戏流畅度，降低延迟，让你的游戏体验更加丝滑。
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <a href="https://qm.qq.com/q/K3MteoArei" target="_blank" class="bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-full flex items-center transition-custom shadow-lg shadow-primary/20">
+              <i class="fa fa-qq mr-2"></i>
+              加入QQ群获取支持
+            </a>
+            <a href="https://modrinth.com/mod/mpem" class="glass hover:glass-dark text-white px-8 py-4 rounded-full flex items-center transition-custom">
+              <i class="fa fa-download mr-2"></i>
+              下载模组
+            </a>
+          </div>
+        </div>
+        <div class="md:w-1/2 flex justify-center">
+          <div class="glass p-8 rounded-2xl shadow-2xl w-full max-w-md">
+            <div class="aspect-video bg-dark/30 rounded-xl mb-6 flex items-center justify-center">
+              <!-- 这里放置主图 -->
+              <div class="text-center">
+                <p class="text-light/70">模组效果预览</p>
+                <iframe src="https://player.bilibili.com/player.html?isOutside=true&aid=114687001763284&bvid=BV1iaMtzCEU8&cid=30511860596&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
+              </div>
+
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="glass-dark p-4 rounded-lg">
+                <div class="text-3xl mb-2">📈</div>
+                <p class="text-sm text-light/80">FPS提升</p>
+                <p class="text-xl font-bold">+30%</p>
+              </div>
+              <div class="glass-dark p-4 rounded-lg">
+                <div class="text-3xl mb-2">⏱️</div>
+                <p class="text-sm text-light/80">加载时间</p>
+                <p class="text-xl font-bold">-30%</p>
+              </div>
+              <div class="glass-dark p-4 rounded-lg">
+                <div class="text-3xl mb-2">💾</div>
+                <p class="text-sm text-light/80">内存占用</p>
+                <p class="text-xl font-bold">-40%</p>
+              </div>
+              <div class="glass-dark p-4 rounded-lg">
+                <div class="text-3xl mb-2">🌌</div>
+                <p class="text-sm text-light/80">兼容性</p>
+                <p class="text-xl font-bold">99%</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="py-12 px-6 md:px-12 glass-dark">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-8 md:mb-0">
+          <div class="flex items-center">
+            <div class="w-12 h-12 rounded-lg bg-secondary/30 flex items-center justify-center mr-4">
+              <!-- 这里放置图标 -->
+              <span class="text-2xl font-bold">MPEM</span>
+            </div>
+            <span class="text-xl font-bold text-shadow">Moonlit Performance Enhancement Module</span>
+          </div>
+          <p class="mt-4 text-light/70 max-w-md">
+            MPEM 月夜性能优化模组致力于为 Minecraft 玩家提供卓越的游戏体验优化解决方案。
+          </p>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+          <div>
+            <h4 class="font-bold text-lg mb-4">模组链接</h4>
+            <ul class="space-y-2">
+              <li><a href="index.html" class="text-light/70 hover:text-accent transition-custom">主页</a></li>
+              <li><a href="features.html" class="text-light/70 hover:text-accent transition-custom">特性</a></li>
+              <li><a href="compatibility.html" class="text-light/70 hover:text-accent transition-custom">兼容性</a></li>
+              <li><a href="changelog.html" class="text-light/70 hover:text-accent transition-custom">更新日志</a></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 class="font-bold text-lg mb-4">支持</h4>
+            <ul class="space-y-2">
+              <li><a href="blacklist.html" class="text-light/70 hover:text-accent transition-custom">封禁名单</a></li>
+              <li><a href="#" class="text-light/70 hover:text-accent transition-custom">使用教程</a></li>
+              <li><a href="#" class="text-light/70 hover:text-accent transition-custom">常见问题</a></li>
+              <li><a href="#" class="text-light/70 hover:text-accent transition-custom">联系我们</a></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 class="font-bold text-lg mb-4">加入我们</h4>
+            <div class="flex space-x-4 mb-4">
+              <a href="https://qm.qq.com/q/K3MteoArei" target="_blank" class="glass w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/50 transition-custom">
+                <i class="fa fa-qq"></i>
+              </a>
+              <a href="https://2git.xyz/ShuyanMC" class="glass w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/50 transition-custom">
+                <i class="fa fa-github"></i>
+              </a>
+              <a href="https://space.bilibili.com/1429023960?spm_id_from=333.1007.0.0" class="glass w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/50 transition-custom">
+                <i class="fa fa-bilibili"></i>
+              </a>
+            </div>
+            <a href="https://qm.qq.com/q/K3MteoArei" target="_blank" class="glass hover:bg-primary/80 text-white px-6 py-2 rounded-lg flex items-center transition-custom">
+              <i class="fa fa-qq mr-2"></i>
+              <span>加入官方QQ群</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-12 pt-8 border-t border-light/10 text-center text-light/60 text-sm">
+        <p>© 2025 ShuyanMC 版权所有 ARR</p>
+        <p class="mt-2">本网站以及我们的作品最终解释权归 ShuyanMC 所有</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // 导航栏滚动效果
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('shadow-lg');
+      } else {
+        navbar.classList.remove('shadow-lg');
+      }
+    });
+    
+    // 移动端菜单切换
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      if (mobileMenu.classList.contains('hidden')) {
+        menuToggle.innerHTML = '<i class="fa fa-bars"></i>';
+      } else {
+        menuToggle.innerHTML = '<i class="fa fa-times"></i>';
+      }
+    });
+  </script>
+</body>
+</html>
+    

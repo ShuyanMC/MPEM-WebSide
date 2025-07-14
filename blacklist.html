@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MPEM | QQ群封禁名单</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#4F46E5',
+            secondary: '#818CF8',
+            accent: '#C7D2FE',
+            dark: '#1E1B4B',
+            light: '#EEF2FF'
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .glass {
+        backdrop-filter: blur(12px);
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+      .glass-dark {
+        backdrop-filter: blur(12px);
+        background-color: rgba(30, 27, 75, 0.6);
+      }
+      .text-shadow {
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .transition-custom {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-dark to-primary min-h-screen text-light overflow-x-hidden">
+  <!-- 导航栏 -->
+  <header id="navbar" class="fixed w-full z-50 transition-all duration-300">
+    <nav class="glass-dark py-4 px-6 md:px-12 flex justify-between items-center">
+      <div class="flex items-center">
+        <div class="w-12 h-12 rounded-lg bg-secondary/30 flex items-center justify-center mr-4">
+          <!-- 这里放置图标 -->
+          <span class="text-2xl font-bold">MPEM</span>
+        </div>
+        <span class="text-xl font-bold text-shadow">Moonlit Performance Enhancement Module</span>
+      </div>
+      
+      <!-- 桌面导航 -->
+      <div class="hidden md:flex items-center space-x-8">
+        <a href="index.html" class="hover:text-accent transition-custom">主页</a>
+        <a href="features.html" class="hover:text-accent transition-custom">特性</a>
+        <a href="compatibility.html" class="hover:text-accent transition-custom">兼容性</a>
+        <a href="changelog.html" class="hover:text-accent transition-custom">更新日志</a>
+        <a href="blacklist.html" class="hover:text-accent transition-custom">黑名单</a>
+        <a href="tutorial.html" class="hover:text-accent transition-custom">使用教程</a>
+        <a href="faq.html" class="hover:text-accent transition-custom">常见问题</a>
+      </div>
+      
+      <!-- QQ群按钮 -->
+      <a href="https://qm.qq.com/q/K3MteoArei" target="_blank" class="hidden md:flex items-center bg-primary/70 hover:bg-primary px-5 py-2 rounded-full transition-custom">
+        <i class="fa fa-qq mr-2"></i>
+        <span>加入QQ群</span>
+      </a>
+      
+      <!-- 移动端菜单按钮 -->
+      <button id="menu-toggle" class="md:hidden text-2xl">
+        <i class="fa fa-bars"></i>
+      </button>
+    </nav>
+    
+    <!-- 移动端菜单 -->
+    <div id="mobile-menu" class="hidden md:hidden glass-dark">
+      <div class="flex flex-col py-4 px-6 space-y-4">
+        <a href="index.html" class="hover:text-accent transition-custom py-2">主页</a>
+        <a href="features.html" class="hover:text-accent transition-custom py-2">特性</a>
+        <a href="compatibility.html" class="hover:text-accent transition-custom py-2">兼容性</a>
+        <a href="changelog.html" class="hover:text-accent transition-custom py-2">更新日志</a>
+        <a href="blacklist.html" class="hover:text-accent transition-custom py-2">黑名单</a>
+        <a href="https://qm.qq.com/q/K3MteoArei" target="_blank" class="flex items-center bg-primary/70 hover:bg-primary px-5 py-3 rounded-full transition-custom justify-center">
+          <i class="fa fa-qq mr-2"></i>
+          <span>加入QQ群</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 黑名单页面 -->
+  <section id="blacklist" class="pt-32 pb-20 px-6 md:px-12">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-[clamp(1.8rem,4vw,3rem)] font-bold text-center mb-16">QQ群封禁名单</h2>
+      
+      <div class="glass rounded-xl overflow-hidden">
+        <div class="p-6 border-b border-light/10">
+          <div class="flex flex-col md:flex-row justify-between items-center">
+            <h3 class="text-xl font-bold mb-4 md:mb-0">封禁名单</h3>
+            <div class="relative w-full md:w-auto">
+              <input type="text" id="search-input" placeholder="搜索QQ号或用户名" class="glass-dark px-4 py-2 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-primary">
+              <i class="fa fa-search absolute right-3 top-1/2 transform -translate-y-1/2 text-light/50"></i>
+            </div>
+          </div>
+        </div>
+        
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="bg-dark/30 text-left">
+                <th class="p-4 font-bold">QQ号</th>
+                <th class="p-4 font-bold">用户名</th>
+                <th class="p-4 font-bold">封禁原因</th>
+                <th class="p-4 font-bold">封禁时间</th>
+                <th class="p-4 font-bold">解封时间</th>
+                <th class="p-4 font-bold">操作</th>
+              </tr>
+            </thead>
+            <tbody id="blacklist-table-body">
+              <tr class="border-b border-light/10 hover:bg-dark/20 blacklist-item">
+                <td class="p-4">暂无..这里会是谁呢</td>
+                <td class="p-4">暂无..这里会是谁呢</td>
+                <td class="p-4 text-light/70">暂无</td>
+                <td class="p-4">暂无</td>
+                <td class="p-4">暂无</td>
+                <td class="p-4">
+                  <button class="text-accent hover:underline view-details" data-id="123456789">查看详情</button>
+                </td>
+              </tr>
+              <tr class="border-b border-light/10 hover:bg-dark/20 blacklist-item">
+                <td class="p-4">暂无</td>
+                <td class="p-4">暂无</td>
+                <td class="p-4 text-light/70">暂无</td>
+                <td class="p-4">暂无</td>
+                <td class="p-4">暂无</td>
+                <td class="p-4">
+                  <button class="text-accent hover:underline view-details" data-id="987654321">查看详情</button>
+                </td>
+              </tr>
+              <tr class="border-b border-light/10 hover:bg-dark/20 blacklist-item">
+                <td class="p-4">暂无</td>
+                <td class="p-4">暂无</td>
+                <td class="p-4 text-light/70">暂无</td>
+                <td class="p-4">暂无</td>
+                <td class="p-4">暂无</td>
+                <td class="p-4">
+                  <button class="text-accent hover:underline view-details" data-id="555555555">查看详情</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="p-6 border-t border-light/10 flex justify-between items-center">
+          <p class="text-sm text-light/60" id="pagination-info">共显示 3 条，总 12 条</p>
+          <div class="flex space-x-2" id="pagination-controls">
+            <button class="glass-dark w-10 h-10 flex items-center justify-center rounded-lg" id="prev-page" disabled>
+              <i class="fa fa-chevron-left"></i>
+            </button>
+            <button class="bg-primary w-10 h-10 flex items-center justify-center rounded-lg page-btn" data-page="1">1</button>
+            <button class="glass-dark w-10 h-10 flex items-center justify-center rounded-lg page-btn" data-page="2">2</button>
+            <button class="glass-dark w-10 h-10 flex items-center justify-center rounded-lg page-btn" data-page="3">3</button>
+            <button class="glass-dark w-10 h-10 flex items-center justify-center rounded-lg page-btn" data-page="4">4</button>
+            <button class="glass-dark w-10 h-10 flex items-center justify-center rounded-lg" id="next-page">
+              <i class="fa fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="py-12 px-6 md:px-12 glass-dark">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-8 md:mb-0">
+          <div class="flex items-center">
+            <div class="w-12 h-12 rounded-lg bg-secondary/30 flex items-center justify-center mr-4">
+              <!-- 这里放置图标 -->
+              <span class="text-2xl font-bold">MPEM</span>
+            </div>
+            <span class="text-xl font-bold text-shadow">MPEM</span>
+          </div>
+          <p class="mt-4 text-light/70 max-w-md">
+            MPEM 月夜性能优化模组致力于为 Minecraft 玩家提供卓越的游戏体验优化解决方案。
+          </p>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+          <div>
+            <h4 class="font-bold text-lg mb-4">模组链接</h4>
+            <ul class="space-y-2">
+              <li><a href="index.html" class="text-light/70 hover:text-accent transition-custom">主页</a></li>
+              <li><a href="features.html" class="text-light/70 hover:text-accent transition-custom">特性</a></li>
+              <li><a href="compatibility.html" class="text-light/70 hover:text-accent transition-custom">兼容性</a></li>
+              <li><a href="changelog.html" class="text-light/70 hover:text-accent transition-custom">更新日志</a></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 class="font-bold text-lg mb-4">支持</h4>
+            <ul class="space-y-2">
+              <li><a href="blacklist.html" class="text-light/70 hover:text-accent transition-custom">封禁名单</a></li>
+              <li><a href="#" class="text-light/70 hover:text-accent transition-custom">使用教程</a></li>
+              <li><a href="#" class="text-light/70 hover:text-accent transition-custom">常见问题</a></li>
+              <li><a href="#" class="text-light/70 hover:text-accent transition-custom">联系我们</a></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 class="font-bold text-lg mb-4">加入我们</h4>
+            <div class="flex space-x-4 mb-4">
+              <a href="https://qm.qq.com/q/K3MteoArei" target="_blank" class="glass w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/50 transition-custom">
+                <i class="fa fa-qq"></i>
+              </a>
+              <a href="https://2git.xyz/ShuyanMC" class="glass w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/50 transition-custom">
+                <i class="fa fa-github"></i>
+              </a>
+              <a href="https://space.bilibili.com/1429023960?spm_id_from=333.1007.0.0" class="glass w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/50 transition-custom">
+                <i class="fa fa-bilibili"></i>
+              </a>
+            </div>
+            <a href="https://qm.qq.com/q/K3MteoArei" target="_blank" class="glass hover:bg-primary/80 text-white px-6 py-2 rounded-lg flex items-center transition-custom">
+              <i class="fa fa-qq mr-2"></i>
+              <span>加入官方QQ群</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-12 pt-8 border-t border-light/10 text-center text-light/60 text-sm">
+        <p>© 2025 ShuyanMC 版权所有 ARR</p>
+        <p class="mt-2">本网站内容仅供学习交流使用，模组最终解释权归 ShuyanMC 所有</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 详情模态框 -->
+  <div id="details-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center">
+    <div class="glass-dark rounded-xl max-w-md w-full mx-4 p-6 transform transition-all duration-300 scale-95 opacity-0" id="modal-content">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold" id="modal-title">封禁详情</h3>
+        <button id="close-modal" class="text-light/70 hover:text-light">
+          <i class="fa fa-times"></i>
+        </button>
+      </div>
+      <div class="space-y-4" id="modal-body">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <p class="text-light/60 text-sm">QQ号</p>
+            <p class="font-bold" id="modal-qq">暂无</p>
+          </div>
+          <div>
+            <p class="text-light/60 text-sm">用户名</p>
+            <p class="font-bold" id="modal-username">暂无</p>
+          </div>
+        </div>
+        <div>
+          <p class="text-light/60 text-sm">封禁原因</p>
+          <p class="font-bold" id="modal-reason">暂无</p>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <p class="text-light/60 text-sm">封禁时间</p>
+            <p class="font-bold" id="modal-start">暂无</p>
+          </div>
+          <div>
+            <p class="text-light/60 text-sm">解封时间</p>
+            <p class="font-bold" id="modal-end">暂无</p>
+          </div>
+        </div>
+        <div>
+          <p class="text-light/60 text-sm">封禁详情</p>
+          <p class="text-light/80" id="modal-details">暂无</p>
+        </div>
+      </div>
+      <div class="mt-6 flex justify-end">
+        <button id="close-modal-btn" class="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-lg transition-custom">
+          关闭
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 导航栏滚动效果
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('shadow-lg');
+      } else {
+        navbar.classList.remove('shadow-lg');
+      }
+    });
+    
+    // 移动端菜单切换
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      if (mobileMenu.classList.contains('hidden')) {
+        menuToggle.innerHTML = '<i class="fa fa-bars"></i>';
+      } else {
+        menuToggle.innerHTML = '<i class="fa fa-times"></i>';
+      }
+    });
+    
+    // 平滑滚动
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        // 关闭移动端菜单
+        if (!mobileMenu.classList.contains('hidden')) {
+          mobileMenu.classList.add('hidden');
+          menuToggle.innerHTML = '<i class="fa fa-bars"></i>';
+        }
+        
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+    
+    // 黑名单数据
+    const blacklistData = [
+          { id: '暂无', username: '暂无', reason: '暂无', start: '暂无', end: '暂无', details: '暂无' },
+          { id: '暂无', username: '暂无', reason: '暂无', start: '暂无', end: '暂无', details: '暂无' },
+          { id: '暂无', username: '暂无', reason: '暂无', start: '暂无', end: '暂无', details: '暂无' },
+          { id: '暂无', username: '暂无', reason: '暂无', start: '暂无', end: '暂无', details: '暂无' },
+          { id: '暂无', username: '暂无', reason: '暂无', start: '暂无', end: '暂无', details: '暂无' },
+          { id: '暂无', username: '暂无', reason: '暂无', start: '暂无', end: '暂无', details: '暂无' },
+          { id: '暂无', username: '暂无', reason: '暂无', start: '暂无', end: '暂无', details: '暂无' },
+          { id: '暂无', username: '暂无', reason: '暂无', start: '暂无', end: '暂无', details: '暂无' },
+          { id: '暂无', username: '暂无', reason: '暂无', start: '暂无', end: '暂无', details: '暂无' },
+          { id: '暂无', username: '暂无', reason: '暂无', start: '暂无', end: '暂无', details: '暂无' },
+          { id: '暂无', username: '暂无', reason: '暂无', start: '暂无', end: '暂无', details: '暂无' },
+          { id: '暂无', username: '暂无', reason: '暂无', start: '暂无', end: '暂无', details: '暂无' },
+        ];
+    
+    // 当前页码和每页显示数量
+    let currentPage = 1;
+    const itemsPerPage = 3;
+    
+    // 初始化黑名单表格
+    function initBlacklistTable() {
+      renderBlacklistTable();
+      initPagination();
+      initSearch();
+      initDetailsModal();
+    }
+    
+    // 渲染黑名单表格
+    function renderBlacklistTable() {
+      const tableBody = document.getElementById('blacklist-table-body');
+      tableBody.innerHTML = '';
+      
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = Math.min(startIndex + itemsPerPage, blacklistData.length);
+      const currentItems = blacklistData.slice(startIndex, endIndex);
+      
+      if (currentItems.length === 0) {
+        const emptyRow = document.createElement('tr');
+        emptyRow.className = 'border-b border-light/10';
+        emptyRow.innerHTML = `
+          <td colspan="6" class="p-6 text-center text-light/50">
+            没有找到匹配的记录
+          </td>
+        `;
+        tableBody.appendChild(emptyRow);
+      } else {
+        currentItems.forEach(item => {
+          const row = document.createElement('tr');
+          row.className = 'border-b border-light/10 hover:bg-dark/20 blacklist-item';
+          row.innerHTML = `
+            <td class="p-4">${item.id}</td>
+            <td class="p-4">${item.username}</td>
+            <td class="p-4 text-light/70">${item.reason}</td>
+            <td class="p-4">${item.start}</td>
+            <td class="p-4">${item.end}</td>
+            <td class="p-4">
+              <button class="text-accent hover:underline view-details" data-id="${item.id}">查看详情</button>
+            </td>
+          `;
+          tableBody.appendChild(row);
+        });
+      }
+      
+      // 更新分页信息
+      document.getElementById('pagination-info').textContent = `共显示 ${currentItems.length} 条，总 ${blacklistData.length} 条`;
+    }
+    
+    // 初始化分页
+    function initPagination() {
+      const totalPages = Math.ceil(blacklistData.length / itemsPerPage);
+      const paginationControls = document.getElementById('pagination-controls');
+      
+      // 清空现有分页按钮
+      paginationControls.innerHTML = '';
+      
+      // 添加前一页按钮
+      const prevButton = document.createElement('button');
+      prevButton.className = `glass-dark w-10 h-10 flex items-center justify-center rounded-lg ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`;
+      prevButton.id = 'prev-page';
+      prevButton.innerHTML = '<i class="fa fa-chevron-left"></i>';
+      prevButton.disabled = currentPage === 1;
+      prevButton.addEventListener('click', () => {
+        if (currentPage > 1) {
+          currentPage--;
+          renderBlacklistTable();
+          initPagination();
+        }
+      });
+      paginationControls.appendChild(prevButton);
+      
+      // 添加页码按钮
+      const maxVisiblePages = 5;
+      let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+      let endPage = Math.min(startPage + maxVisiblePages - 1, totalPages);
+      
+      if (endPage - startPage + 1 < maxVisiblePages) {
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+      }
+      
+      if (startPage > 1) {
+        // 添加第一页按钮和省略号
+        addPageButton(1);
+        if (startPage > 2) {
+          addEllipsis();
+        }
+      }
+      
+      for (let i = startPage; i <= endPage; i++) {
+        addPageButton(i);
+      }
+      
+      if (endPage < totalPages) {
+        // 添加省略号和最后一页按钮
+        if (endPage < totalPages - 1) {
+          addEllipsis();
+        }
+        addPageButton(totalPages);
+      }
+      
+      // 添加后一页按钮
+      const nextButton = document.createElement('button');
+      nextButton.className = `glass-dark w-10 h-10 flex items-center justify-center rounded-lg ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''}`;
+      nextButton.id = 'next-page';
+      nextButton.innerHTML = '<i class="fa fa-chevron-right"></i>';
+      nextButton.disabled = currentPage === totalPages;
+      nextButton.addEventListener('click', () => {
+        if (currentPage < totalPages) {
+          currentPage++;
+          renderBlacklistTable();
+          initPagination();
+        }
+      });
+      paginationControls.appendChild(nextButton);
+      
+      function addPageButton(pageNum) {
+        const button = document.createElement('button');
+        button.className = `w-10 h-10 flex items-center justify-center rounded-lg ${pageNum === currentPage ? 'bg-primary' : 'glass-dark'}`;
+        button.textContent = pageNum;
+        button.addEventListener('click', () => {
+          if (pageNum !== currentPage) {
+            currentPage = pageNum;
+            renderBlacklistTable();
+            initPagination();
+          }
+        });
+        paginationControls.appendChild(button);
+      }
+      
+      function addEllipsis() {
+        const ellipsis = document.createElement('span');
+        ellipsis.className = 'w-10 h-10 flex items-center justify-center text-light/50';
+        ellipsis.textContent = '...';
+        paginationControls.appendChild(ellipsis);
+      }
+    }
+    
+    // 初始化搜索功能
+    function initSearch() {
+      const searchInput = document.getElementById('search-input');
+      searchInput.addEventListener('input', () => {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        
+        if (searchTerm === '') {
+          // 清空搜索，显示全部数据
+          renderBlacklistTable();
+          initPagination();
+          return;
+        }
+        
+        // 过滤数据
+        const filteredData = blacklistData.filter(item => {
+          return item.id.toLowerCase().includes(searchTerm) || 
+                 item.username.toLowerCase().includes(searchTerm) || 
+                 item.reason.toLowerCase().includes(searchTerm);
+        });
+        
+        // 临时修改数据源并重新渲染
+        const originalData = [...blacklistData];
+        blacklistData.length = 0;
+        blacklistData.push(...filteredData);
+        
+        currentPage = 1;
+        renderBlacklistTable();
+        initPagination();
+        
+        // 恢复原始数据
+        blacklistData.length = 0;
+        blacklistData.push(...originalData);
+      });
+    }
+    
+    // 初始化详情模态框
+    function initDetailsModal() {
+      const modal = document.getElementById('details-modal');
+      const modalContent = document.getElementById('modal-content');
+      const closeModal = document.getElementById('close-modal');
+      const closeModalBtn = document.getElementById('close-modal-btn');
+      
+      // 点击查看详情按钮
+      document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('view-details')) {
+          const id = e.target.getAttribute('data-id');
+          const item = blacklistData.find(item => item.id === id);
+          
+          if (item) {
+            document.getElementById('modal-qq').textContent = item.id;
+            document.getElementById('modal-username').textContent = item.username;
+            document.getElementById('modal-reason').textContent = item.reason;
+            document.getElementById('modal-start').textContent = item.start;
+            document.getElementById('modal-end').textContent = item.end;
+            document.getElementById('modal-details').textContent = item.details;
+            
+            // 显示模态框并添加动画
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+              modalContent.classList.remove('scale-95', 'opacity-0');
+              modalContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+          }
+        }
+      });
+      
+      // 关闭模态框
+      function hideModal() {
+        modalContent.classList.remove('scale-100', 'opacity-100');
+        modalContent.classList.add('scale-95', 'opacity-0');
+        setTimeout(() => {
+          modal.classList.add('hidden');
+        }, 300);
+      }
+      
+      closeModal.addEventListener('click', hideModal);
+      closeModalBtn.addEventListener('click', hideModal);
+      
+      // 点击模态框外部关闭
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          hideModal();
+        }
+      });
+    }
+    
+    // 页面加载完成后初始化
+    document.addEventListener('DOMContentLoaded', initBlacklistTable);
+  </script>
+</body>
+</html>
+    

@@ -1,0 +1,558 @@
+<!-- 常见问题页面 (faq.html) -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MPEM | 常见问题</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#4F46E5',
+            secondary: '#818CF8',
+            accent: '#C7D2FE',
+            dark: '#1E1B4B',
+            light: '#EEF2FF'
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .glass {
+        backdrop-filter: blur(12px);
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+      .glass-dark {
+        backdrop-filter: blur(12px);
+        background-color: rgba(30, 27, 75, 0.6);
+      }
+      .text-shadow {
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .transition-custom {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .faq-question {
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      .faq-question:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+      .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+      }
+      .faq-item.active .faq-answer {
+        max-height: 1000px;
+      }
+      .faq-item.active .faq-icon {
+        transform: rotate(180deg);
+      }
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-dark to-primary min-h-screen text-light overflow-x-hidden">
+  <!-- 导航栏 -->
+  <header id="navbar" class="fixed w-full z-50 transition-all duration-300">
+    <nav class="glass-dark py-4 px-6 md:px-12 flex justify-between items-center">
+      <div class="flex items-center">
+        <div class="w-12 h-12 rounded-lg bg-secondary/30 flex items-center justify-center mr-4">
+          <span class="text-2xl font-bold">MPEM</span>
+        </div>
+        <span class="text-xl font-bold text-shadow">Moonlit Performance Enhancement Module</span>
+      </div>
+      
+      <!-- 桌面导航 -->
+      <div class="hidden md:flex items-center space-x-8">
+        <a href="index.html" class="hover:text-accent transition-custom">主页</a>
+        <a href="features.html" class="hover:text-accent transition-custom">特性</a>
+        <a href="compatibility.html" class="hover:text-accent transition-custom">兼容性</a>
+        <a href="changelog.html" class="hover:text-accent transition-custom">更新日志</a>
+        <a href="blacklist.html" class="hover:text-accent transition-custom">黑名单</a>
+        <a href="tutorial.html" class="hover:text-accent transition-custom">使用教程</a>
+        <a href="faq.html" class="hover:text-accent transition-custom">常见问题</a>
+      </div>
+      
+      <!-- QQ群按钮 -->
+      <a href="https://qm.qq.com/q/K3MteoArei" target="_blank" class="hidden md:flex items-center bg-primary/70 hover:bg-primary px-5 py-2 rounded-full transition-custom">
+        <i class="fa fa-qq mr-2"></i>
+        <span>加入QQ群</span>
+      </a>
+      
+      <!-- 移动端菜单按钮 -->
+      <button id="menu-toggle" class="md:hidden text-2xl">
+        <i class="fa fa-bars"></i>
+      </button>
+    </nav>
+    
+    <!-- 移动端菜单 -->
+    <div id="mobile-menu" class="hidden md:hidden glass-dark">
+      <div class="flex flex-col py-4 px-6 space-y-4">
+        <a href="index.html" class="hover:text-accent transition-custom py-2">主页</a>
+        <a href="features.html" class="hover:text-accent transition-custom py-2">特性</a>
+        <a href="compatibility.html" class="hover:text-accent transition-custom py-2">兼容性</a>
+        <a href="changelog.html" class="hover:text-accent transition-custom py-2">更新日志</a>
+        <a href="blacklist.html" class="hover:text-accent transition-custom py-2">黑名单</a>
+        <a href="tutorial.html" class="hover:text-accent transition-custom py-2">使用教程</a>
+        <a href="faq.html" class="hover:text-accent transition-custom py-2">常见问题</a>
+        <a href="https://qm.qq.com/q/K3MteoArei" target="_blank" class="flex items-center bg-primary/70 hover:bg-primary px-5 py-3 rounded-full transition-custom justify-center">
+          <i class="fa fa-qq mr-2"></i>
+          <span>加入QQ群</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 常见问题页面内容 -->
+  <section id="faq" class="pt-32 pb-20 px-6 md:px-12">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-[clamp(1.8rem,4vw,3rem)] font-bold text-center mb-16">常见问题</h2>
+      
+      <div class="glass rounded-xl overflow-hidden">
+        <div class="p-6">
+          <p class="mb-8 text-center">这里汇总了用户在安装和使用MPEM模组时遇到的常见问题及解决方案。如果您有其他疑问，请加入<a href="https://qm.qq.com/q/K3MteoArei" target="_blank" class="text-accent hover:underline">官方QQ群</a>寻求帮助。</p>
+          
+          <!-- 常见问题列表 -->
+          <div class="space-y-4" id="faq-container">
+            <!-- 问题1 -->
+            <div class="faq-item glass rounded-lg overflow-hidden">
+              <div class="faq-question p-6 flex justify-between items-center cursor-pointer">
+                <h3 class="text-lg font-bold">模组安装后游戏无法启动怎么办？</h3>
+                <div class="faq-icon text-xl transition-transform duration-300">
+                  <i class="fa fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="faq-answer bg-dark/30 p-6">
+                <p>如果模组安装后游戏无法启动，请尝试以下步骤：</p>
+                <ol class="mt-4 ml-6 list-decimal space-y-2">
+                  <li>检查模组版本是否与您的游戏版本和加载器兼容</li>
+                  <li>确保下载的模组文件完整且未损坏</li>
+                  <li>检查是否安装了所有必要的依赖模组</li>
+                  <li>尝试删除模组并重新安装</li>
+                  <li>检查游戏日志文件，查找可能的错误信息</li>
+                  <li>如果使用的是Forge加载器，尝试更新到最新版本</li>
+                </ol>
+              </div>
+            </div>
+            
+            <!-- 问题2 -->
+            <div class="faq-item glass rounded-lg overflow-hidden">
+              <div class="faq-question p-6 flex justify-between items-center cursor-pointer">
+                <h3 class="text-lg font-bold">如何配置模组以获得最佳性能？</h3>
+                <div class="faq-icon text-xl transition-transform duration-300">
+                  <i class="fa fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="faq-answer bg-dark/30 p-6">
+                <p>MPEM模组提供了多种配置选项，您可以根据自己的硬件性能和游戏需求进行调整：</p>
+                <ol class="mt-4 ml-6 list-decimal space-y-2">
+                  <li>打开游戏目录下的"config"文件夹，找到"mpem.toml"文件</li>
+                  <li>使用文本编辑器打开配置文件</li>
+                  <li>根据您的需求调整各项参数</li>
+            
+                  <li>保存文件后重启游戏（推荐）或在存档内执行 /reload 重载使更改生效</li>
+                  <li>如果您不确定如何配置，可以尝试使用默认设置</li>
+                </ol>
+              </div>
+            </div>
+            
+            <!-- 问题3 -->
+            <div class="faq-item glass rounded-lg overflow-hidden">
+              <div class="faq-question p-6 flex justify-between items-center cursor-pointer">
+                <h3 class="text-lg font-bold">模组与其他Mod冲突怎么办？</h3>
+                <div class="faq-icon text-xl transition-transform duration-300">
+                  <i class="fa fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="faq-answer bg-dark/30 p-6">
+                <p>如果MPEM模组与其他Mod发生冲突，请尝试以下解决方案：</p>
+                <ol class="mt-4 ml-6 list-decimal space-y-2">
+                  <li>检查模组兼容性列表，确认是否与其他Mod存在已知冲突</li>
+                  <li>尝试更新到最新版本的MPEM模组和相关Mod</li>
+                  <li>逐个禁用其他Mod，确定具体冲突的Mod</li>
+                  <li>在配置文件中调整相关选项，尝试避免冲突</li>
+                  <li>如果冲突无法解决，请在<a href="https://qm.qq.com/q/K3MteoArei" target="_blank" class="text-accent hover:underline">官方QQ群</a>中报告问题</li>
+                </ol>
+              </div>
+            </div>
+            
+            <!-- 问题4 -->
+            <div class="faq-item glass rounded-lg overflow-hidden">
+              <div class="faq-question p-6 flex justify-between items-center cursor-pointer">
+                <h3 class="text-lg font-bold">模组是否支持服务器使用？</h3>
+                <div class="faq-icon text-xl transition-transform duration-300">
+                  <i class="fa fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="faq-answer bg-dark/30 p-6">
+                <p>是的，MPEM模组支持在服务器端使用。要在服务器上安装MPEM模组：</p>
+                <ol class="mt-4 ml-6 list-decimal space-y-2">
+                  <li>确保服务器已安装相应的Mod加载器（Forge、Fabric或NeoForge）</li>
+                  <li>将MPEM模组文件放入服务器的"mods"文件夹</li>
+                  <li>如果模组有依赖项，也需要将依赖模组放入"mods"文件夹</li>
+                  <li>重启服务器使模组生效</li>
+                  <li>注意：某些优化选项可能需要在服务器配置文件中单独调整</li>
+                </ol>
+              </div>
+            </div>
+            
+            <!-- 问题5 -->
+            <div class="faq-item glass rounded-lg overflow-hidden">
+              <div class="faq-question p-6 flex justify-between items-center cursor-pointer">
+                <h3 class="text-lg font-bold">如何卸载模组？</h3>
+                <div class="faq-icon text-xl transition-transform duration-300">
+                  <i class="fa fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="faq-answer bg-dark/30 p-6">
+                <p>卸载MPEM模组非常简单：</p>
+                <ol class="mt-4 ml-6 list-decimal space-y-2">
+                  <li>关闭Minecraft游戏</li>
+                  <li>打开游戏目录下的"mods"文件夹</li>
+                  <li>找到并删除MPEM模组文件（通常是"mpem-*.jar"）</li>
+                  <li>如果您想完全移除模组配置，还可以删除"config"文件夹中的"mpem.toml"文件</li>
+                  <li>重新启动游戏，模组将不再加载</li>
+                </ol>
+              </div>
+            </div>
+            
+            <!-- 问题6 -->
+            <div class="faq-item glass rounded-lg overflow-hidden">
+              <div class="faq-question p-6 flex justify-between items-center cursor-pointer">
+                <h3 class="text-lg font-bold">模组在游戏中如何显示？有什么界面可以调整设置吗？</h3>
+                <div class="faq-icon text-xl transition-transform duration-300">
+                  <i class="fa fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="faq-answer bg-dark/30 p-6">
+                <p>MPEM模组默认不会在游戏中添加专门的界面。您可以通过以下方式调整设置：</p>
+                <ol class="mt-4 ml-6 list-decimal space-y-2">
+                  <li>修改配置文件：在游戏目录的"config"文件夹中找到"mpem.toml"文件，使用文本编辑器修改后重启游戏</li>
+                  <li>使用Mod菜单：如果您安装了Mod菜单模组（如ModMenu），可以在游戏内通过Mod菜单直接调整MPEM的设置</li>
+                 
+                </ol>
+              </div>
+            </div>
+            
+            <!-- 问题7 -->
+            <div class="faq-item glass rounded-lg overflow-hidden">
+              <div class="faq-question p-6 flex justify-between items-center cursor-pointer">
+                <h3 class="text-lg font-bold">模组是否支持Mod加载器的所有版本？</h3>
+                <div class="faq-icon text-xl transition-transform duration-300">
+                  <i class="fa fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="faq-answer bg-dark/30 p-6">
+                <p>MPEM模组支持多种Mod加载器，但并非所有版本。具体支持情况如下：</p>
+                <ul class="mt-4 ml-6 list-disc space-y-2">
+                  <li><strong>Forge</strong>：支持1.19.4～1.20.2版本</li>
+                  <li><strong>Fabric</strong>：支持1.20.1 & 1.21～1.21.1版本</li>
+                  <li><strong>NeoForge</strong>：支持1.20.1 & 1.21～1.21.1版本</li>
+                </ul>
+                <p class="mt-4">在下载模组时，请务必选择与您的游戏版本和加载器兼容的模组版本。如果您使用的是较旧的游戏版本，可能需要寻找相应的旧版本模组。</p>
+              </div>
+            </div>
+            
+            <!-- 问题8 -->
+            <div class="faq-item glass rounded-lg overflow-hidden">
+              <div class="faq-question p-6 flex justify-between items-center cursor-pointer">
+                <h3 class="text-lg font-bold">为什么我安装模组后没有看到明显的性能提升？</h3>
+                <div class="faq-icon text-xl transition-transform duration-300">
+                  <i class="fa fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="faq-answer bg-dark/30 p-6">
+                <p>如果安装模组后没有看到明显的性能提升，请考虑以下因素：</p>
+                <ol class="mt-4 ml-6 list-decimal space-y-2">
+                  <li>模组配置：默认配置可能不是最适合您系统的，尝试调整配置文件中的参数</li>
+                  <li>硬件瓶颈：如果您的电脑硬件已经达到极限，模组可能无法提供显著提升</li>
+                  <li>冲突Mod：其他Mod可能与MPEM模组冲突，导致性能下降或无提升</li>
+                  <li>模组版本：确保使用的是最新版本的模组，旧版本可能存在性能问题</li>
+                  <li>测试方法：尝试在相同条件下（相同世界、相同活动）比较安装前后的性能</li>
+                </ol>
+                <p class="mt-4">如果问题仍然存在，请在<a href="https://qm.qq.com/q/K3MteoArei" target="_blank" class="text-accent hover:underline">官方QQ群</a>中提供您的系统信息和配置文件，我们将协助您解决问题。</p>
+              </div>
+            </div>
+            
+            <!-- 问题9 -->
+            <div class="faq-item glass rounded-lg overflow-hidden">
+              <div class="faq-question p-6 flex justify-between items-center cursor-pointer">
+                <h3 class="text-lg font-bold">模组会影响游戏的稳定性吗？</h3>
+                <div class="faq-icon text-xl transition-transform duration-300">
+                  <i class="fa fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="faq-answer bg-dark/30 p-6">
+                <p>MPEM模组的设计目标是在不影响游戏稳定性的前提下提高性能。然而，任何Mod都有可能引入新的问题，尤其是：</p>
+                <ul class="mt-4 ml-6 list-disc space-y-2">
+                  <li>与其他Mod存在兼容性问题</li>
+                  <li>配置不当，例如过度优化导致游戏异常</li>
+                  <li>使用了不兼容的模组版本</li>
+                </ul>
+                <p class="mt-4">为了确保稳定性，我们建议：</p>
+                <ol class="mt-4 ml-6 list-decimal space-y-2">
+                  <li>从官方渠道下载模组</li>
+                  <li>使用与您的游戏版本和加载器兼容的模组版本</li>
+                  <li>逐步调整配置，避免一次性启用所有优化选项</li>
+                  <li>定期更新模组到最新版本</li>
+                </ol>
+                <p class="mt-4">如果您遇到稳定性问题，请尝试禁用模组或调整配置，然后在<a href="https://qm.qq.com/q/K3MteoArei" target="_blank" class="text-accent hover:underline">官方QQ群</a>中报告问题。</p>
+              </div>
+            </div>
+            
+            <!-- 问题10 -->
+            <div class="faq-item glass rounded-lg overflow-hidden">
+              <div class="faq-question p-6 flex justify-between items-center cursor-pointer">
+                <h3 class="text-lg font-bold">如何更新模组到新版本？</h3>
+                <div class="faq-icon text-xl transition-transform duration-300">
+                  <i class="fa fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="faq-answer bg-dark/30 p-6">
+                <p>更新MPEM模组到新版本的步骤如下：</p>
+                <ol class="mt-4 ml-6 list-decimal space-y-2">
+                  <li>关闭Minecraft游戏</li>
+                  <li>备份当前的模组文件和配置文件（可选但推荐）</li>
+                  <li>从官方渠道下载最新版本的模组</li>
+                  <li>打开游戏目录下的"mods"文件夹</li>
+                  <li>删除旧版本的MPEM模组文件</li>
+                  <li>将新版本的模组文件放入"mods"文件夹</li>
+                  <li>启动游戏，模组将自动加载新版本</li>
+                </ol>
+                <p class="mt-4">注意：在更新过程中，您的配置文件通常不会被修改。如果新版本有重大变更，可能需要调整配置以获得最佳效果。</p>
+              </div>
+            </div>
+            
+            <!-- 留空的问题 -->
+            <div class="faq-item glass rounded-lg overflow-hidden">
+              <div class="faq-question p-6 flex justify-between items-center cursor-pointer">
+                <h3 class="text-lg font-bold">问题11：模组在低配置电脑上的表现如何？</h3>
+                <div class="faq-icon text-xl transition-transform duration-300">
+                  <i class="fa fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="faq-answer bg-dark/30 p-6">
+                <p>MSPT更低，TPS更平稳，FPS更高,波动更小</p>
+              </div>
+            </div>
+            
+            <div class="faq-item glass rounded-lg overflow-hidden">
+              <div class="faq-question p-6 flex justify-between items-center cursor-pointer">
+                <h3 class="text-lg font-bold">问题12：模组是否支持Mod整合包？</h3>
+                <div class="faq-icon text-xl transition-transform duration-300">
+                  <i class="fa fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="faq-answer bg-dark/30 p-6">
+                <p>支持，如果您是整合包作者，您可以将本模组随意添加进您的整合包而不需要通知</p>
+              </div>
+            </div>
+            
+            <div class="faq-item glass rounded-lg overflow-hidden">
+              <div class="faq-question p-6 flex justify-between items-center cursor-pointer">
+                <h3 class="text-lg font-bold">问题13：模组是否会修改游戏存档？</h3>
+                <div class="faq-icon text-xl transition-transform duration-300">
+                  <i class="fa fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="faq-answer bg-dark/30 p-6">
+                <p>不会，可放心使用，本模组不会有破坏性行为</p>
+              </div>
+            </div>
+            
+            <div class="faq-item glass rounded-lg overflow-hidden">
+              <div class="faq-question p-6 flex justify-between items-center cursor-pointer">
+                <h3 class="text-lg font-bold">问题14：模组的优化具体是如何工作的？</h3>
+                <div class="faq-icon text-xl transition-transform duration-300">
+                  <i class="fa fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="faq-answer bg-dark/30 p-6">
+                <p>可以看看更新日志或MC百科站内正文描述了解，内容过多，这里不一一介绍</p>
+              </div>
+            </div>
+            
+            <div class="faq-item glass rounded-lg overflow-hidden">
+              <div class="faq-question p-6 flex justify-between items-center cursor-pointer">
+                <h3 class="text-lg font-bold">问题15：模组是否支持中文？</h3>
+                <div class="faq-icon text-xl transition-transform duration-300">
+                  <i class="fa fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="faq-answer bg-dark/30 p-6">
+                <p>这是肯定的，MPEM是国创模组！</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 反馈部分 -->
+      <div class="mt-12 glass rounded-xl overflow-hidden">
+        <div class="bg-primary/30 p-6">
+          <h3 class="text-2xl font-bold">还有其他问题？</h3>
+        </div>
+        <div class="p-6">
+          <p class="mb-6">如果您的问题没有在上面找到答案，欢迎通过以下方式联系我们：</p>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a href="https://qm.qq.com/q/K3MteoArei" target="_blank" class="glass-dark hover:bg-primary/50 p-4 rounded-lg flex items-center transition-custom">
+              <i class="fa fa-qq text-2xl mr-3"></i>
+              <div>
+                <h4 class="font-bold">加入官方QQ群</h4>
+                <p class="text-sm text-light/70">与开发者和其他用户交流</p>
+              </div>
+            </a>
+            
+            <a href="https://2git.xyz/ShuyanMC/MPEM/issues" class="glass-dark hover:bg-primary/50 p-4 rounded-lg flex items-center transition-custom">
+              <i class="fa fa-github text-2xl mr-3"></i>
+              <div>
+                <h4 class="font-bold">在GitHub上提交问题</h4>
+                <p class="text-sm text-light/70">详细描述您遇到的问题</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="py-12 px-6 md:px-12 glass-dark">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-8 md:mb-0">
+          <div class="flex items-center">
+            <div class="w-12 h-12 rounded-lg bg-secondary/30 flex items-center justify-center mr-4">
+              <span class="text-2xl font-bold">MPEM</span>
+            </div>
+            <span class="text-xl font-bold text-shadow">Moonlit Performance Enhancement Module</span>
+          </div>
+          <p class="mt-4 text-light/70 max-w-md">
+            MPEM 月夜性能优化模组致力于为 Minecraft 玩家提供卓越的游戏体验优化解决方案。
+          </p>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+          <div>
+            <h4 class="font-bold text-lg mb-4">模组链接</h4>
+            <ul class="space-y-2">
+              <li><a href="index.html" class="text-light/70 hover:text-accent transition-custom">主页</a></li>
+              <li><a href="features.html" class="text-light/70 hover:text-accent transition-custom">特性</a></li>
+              <li><a href="compatibility.html" class="text-light/70 hover:text-accent transition-custom">兼容性</a></li>
+              <li><a href="changelog.html" class="text-light/70 hover:text-accent transition-custom">更新日志</a></li>
+              <li><a href="tutorial.html" class="text-light/70 hover:text-accent transition-custom">使用教程</a></li>
+              <li><a href="faq.html" class="text-light/70 hover:text-accent transition-custom">常见问题</a></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 class="font-bold text-lg mb-4">支持</h4>
+            <ul class="space-y-2">
+              <li><a href="blacklist.html" class="text-light/70 hover:text-accent transition-custom">封禁名单</a></li>
+              <li><a href="#" class="text-light/70 hover:text-accent transition-custom">使用教程</a></li>
+              <li><a href="#" class="text-light/70 hover:text-accent transition-custom">常见问题</a></li>
+              <li><a href="#" class="text-light/70 hover:text-accent transition-custom">联系我们</a></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 class="font-bold text-lg mb-4">加入我们</h4>
+            <div class="flex space-x-4 mb-4">
+              <a href="https://qm.qq.com/q/K3MteoArei" target="_blank" class="glass w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/50 transition-custom">
+                <i class="fa fa-qq"></i>
+              </a>
+              <a href="https://2git.xyz/ShuyanMC" class="glass w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/50 transition-custom">
+                <i class="fa fa-github"></i>
+              </a>
+              <a href="https://space.bilibili.com/1429023960?spm_id_from=333.1007.0.0" class="glass w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/50 transition-custom">
+                <i class="fa fa-bilibili"></i>
+              </a>
+            </div>
+            <a href="https://qm.qq.com/q/K3MteoArei" target="_blank" class="glass hover:bg-primary/80 text-white px-6 py-2 rounded-lg flex items-center transition-custom">
+              <i class="fa fa-qq mr-2"></i>
+              <span>加入官方QQ群</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-12 pt-8 border-t border-light/10 text-center text-light/60 text-sm">
+        <p>© 2025 ShuyanMC 版权所有 ARR</p>
+        <p class="mt-2">本网站以及模组最终解释权归 ShuyanMC 所有</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // 导航栏滚动效果
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('shadow-lg');
+      } else {
+        navbar.classList.remove('shadow-lg');
+      }
+    });
+    
+    // 移动端菜单切换
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      if (mobileMenu.classList.contains('hidden')) {
+        menuToggle.innerHTML = '<i class="fa fa-bars"></i>';
+      } else {
+        menuToggle.innerHTML = '<i class="fa fa-times"></i>';
+      }
+    });
+    
+    // 平滑滚动
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        // 关闭移动端菜单
+        if (!mobileMenu.classList.contains('hidden')) {
+          mobileMenu.classList.add('hidden');
+          menuToggle.innerHTML = '<i class="fa fa-bars"></i>';
+        }
+        
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+    
+    // FAQ 折叠功能
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    faqQuestions.forEach(question => {
+      question.addEventListener('click', () => {
+        const faqItem = question.parentElement;
+        faqItem.classList.toggle('active');
+      });
+    });
+  </script>
+</body>
+</html>
