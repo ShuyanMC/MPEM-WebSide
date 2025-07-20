@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>MPEM | 模组统计</title>
+                <script src="https://cdn.tailwindcss.com"></script>
+                <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+                    <script>
+                        tailwind.config = {
+                            theme: {
+                                extend: {
+                                    colors: {
+                                        primary: '#4F46E5',
+                                        secondary: '#818CF8',
+                                        accent: '#C7D2FE',
+                                        dark: '#1E1B4B',
+                                        light: '#EEF2FF'
+                                    },
+                                    fontFamily: {
+                                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                                    },
+                                },
+                            }
+                        }
+                    </script>
+                    <style type="text/tailwindcss">
+                        @layer utilities {
+                            .content-auto {
+                                content-visibility: auto;
+                            }
+                            .glass {
+                                backdrop-filter: blur(12px);
+                                background-color: rgba(255, 255, 255, 0.1);
+                            }
+                            .glass-dark {
+                                backdrop-filter: blur(12px);
+                                background-color: rgba(30, 27, 75, 0.6);
+                            }
+                            .text-shadow {
+                                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                            }
+                            .transition-custom {
+                                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                            }
+                            .rank-item {
+                                @apply p-4 rounded-lg glass mb-3 flex items-center hover:bg-primary/20 transition-custom;
+                            }
+                            .rank-number {
+                                @apply w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold mr-4;
+                            }
+                            .stat-card {
+                                @apply glass rounded-xl p-6 mb-6 transition-custom hover:shadow-lg;
+                            }
+                            .progress-bar {
+                                @apply h-2 bg-dark/50 rounded-full overflow-hidden;
+                            }
+                            .progress-value {
+                                @apply h-full bg-primary rounded-full transition-all duration-700;
+                            }
+                        }
+                    </style>
+    </head>
+    <body class="bg-gradient-to-br from-dark to-primary min-h-screen text-light overflow-x-hidden">
+        <!-- 导航栏 -->
+        <header id="navbar" class="fixed w-full z-50 transition-all duration-300">
+            <nav class="glass-dark py-4 px-6 md:px-12 flex justify-between items-center">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 rounded-lg bg-secondary/30 flex items-center justify-center mr-4">
+                        <span class="text-2xl font-bold">MPEM</span>
+                    </div>
+                    <span class="text-xl font-bold text-shadow">MPEM</span>
+                </div>
+                
+                <!-- 桌面导航 -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="hover:text-accent transition-custom">主页</a>
+                    <a href="features.html" class="hover:text-accent transition-custom">特性</a>
+                    <a href="compatibility.html" class="hover:text-accent transition-custom">兼容性</a>
+                    <a href="changelog.html" class="hover:text-accent transition-custom">更新日志</a>
+                    <a href="blacklist.html" class="hover:text-accent transition-custom">黑名单</a>
+                    <a href="tutorial.html" class="hover:text-accent transition-custom">使用教程</a>
+                    <a href="faq.html" class="hover:text-accent transition-custom">常见问题</a>
+                    <a href="statistics.html" class="hover:text-accent transition-custom">模组统计</a>
+                </div>
+                
+                <!-- QQ群按钮 -->
+                <a href="https://qm.qq.com/q/4DCHHYWxQI" target="_blank" class="hidden md:flex items-center bg-primary/70 hover:bg-primary px-5 py-2 rounded-full transition-custom">
+                    <i class="fa fa-qq mr-2"></i>
+                    <span>加入QQ群</span>
+                </a>
+                
+                <!-- 移动端菜单按钮 -->
+                <button id="menu-toggle" class="md:hidden text-2xl">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </nav>
+            
+            <!-- 移动端菜单 -->
+            <div id="mobile-menu" class="hidden md:hidden glass-dark">
+                <div class="flex flex-col py-4 px-6 space-y-4">
+                    <a href="index.html" class="hover:text-accent transition-custom py-2">主页</a>
+                    <a href="features.html" class="hover:text-accent transition-custom py-2">特性</a>
+                    <a href="compatibility.html" class="hover:text-accent transition-custom py-2">兼容性</a>
+                    <a href="changelog.html" class="hover:text-accent transition-custom py-2">更新日志</a>
+                    <a href="blacklist.html" class="hover:text-accent transition-custom py-2">黑名单</a>
+                    <a href="tutorial.html" class="hover:text-accent transition-custom py-2">使用教程</a>
+                    <a href="faq.html" class="hover:text-accent transition-custom py-2">常见问题</a>
+                    <a href="statistics.html" class="hover:text-accent transition-custom py-2">模组统计</a>
+                    <a href="https://qm.qq.com/q/4DCHHYWxQI" target="_blank" class="flex items-center bg-primary/70 hover:bg-primary px-5 py-3 rounded-full transition-custom justify-center">
+                        <i class="fa fa-qq mr-2"></i>
+                        <span>加入QQ群</span>
+                    </a>
+                </div>
+            </div>
+        </header>
+        
+        <!-- 模组统计页面内容 -->
+        <section id="statistics" class="pt-32 pb-20 px-6 md:px-12">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-[clamp(1.8rem,4vw,3rem)] font-bold text-center mb-16">6月份模组统计（收入MPEM数据,保守数据）</h2>
+                
+                <!-- 写在前面 -->
+                <div class="glass rounded-xl overflow-hidden mb-12">
+                    <div class="bg-primary/30 p-6">
+                        <h3 class="text-2xl font-bold">写在前面</h3>
+                    </div>
+                    <div class="p-6">
+                        <p class="mb-4">就在不久前，一个新的里程碑达成了，MC百科迎来了第 20,000 款模组收录！</p>
+                        <p class="mb-4">这段旅程耗时 2 年，每一步都凝聚着无数的热爱与心血、情怀与坚持。</p>
+                        <p class="mb-4">我们协作、我们创造、我们分享，共同向 Minecraft 模组生态圈输送养分，并经历着每一次脉动与变迁。</p>
+                        <p>此刻，我们将踏上通往 30,000 模组收录的旅途，携手并肩，打造一个温暖的社区，提供更多优质的内容！</p>
+                        
+                        <div class="mt-6">
+                            <p class="mb-2">从今年的 6 月统计开始，统计中的每个模组栏位数量由 10 个增加到 20 个，为更多优秀模组提供展示机会，加油！</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 统计概览 -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                    <div class="stat-card">
+                        <h3 class="text-xl font-bold mb-4 flex items-center">
+                            <i class="fa fa-line-chart mr-3 text-accent"></i>
+                            本月新收录模组
+                        </h3>
+                        <p class="text-4xl font-bold mb-2">450 个</p>
+                        <div class="flex items-center text-light/70">
+                            <i class="fa fa-arrow-up text-green-400 mr-2"></i>
+                            <span>较上月增长 12.5%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h3 class="text-xl font-bold mb-4 flex items-center">
+                            <i class="fa fa-globe mr-3 text-accent"></i>
+                            国创模组占比
+                        </h3>
+                        <p class="text-4xl font-bold mb-2">40.89%</p>
+                        <div class="flex items-center text-light/70">
+                            <i class="fa fa-arrow-up text-green-400 mr-2"></i>
+                            <span>共 184 个国创模组</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h3 class="text-xl font-bold mb-4 flex items-center">
+                            <i class="fa fa-calendar mr-3 text-accent"></i>
+                            单日收录最高
+                        </h3>
+                        <p class="text-4xl font-bold mb-2">100 个</p>
+                        <div class="flex items-center text-light/70">
+                            <span>日期：2025-06-05</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 模组分类统计 -->
+                <div class="glass rounded-xl overflow-hidden mb-12">
+                    <div class="bg-primary/30 p-6">
+                        <h3 class="text-2xl font-bold">模组分类统计</h3>
+                    </div>
+                    <div class="p-6">
+                        <p class="mb-8">在过去的一个月里，百科共新收录 450 个模组，具体分类如下：</p>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span>科技模组</span>
+                                    <span>12 个</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-value" style="width: 2.67%"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span>魔法模组</span>
+                                    <span>7 个</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-value" style="width: 1.56%"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span>实用模组</span>
+                                    <span>68 个</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-value" style="width: 15.11%"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span>冒险模组</span>
+                                    <span>92 个</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-value" style="width: 20.44%"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span>农业模组</span>
+                                    <span>11 个</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-value" style="width: 2.44%"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span>装饰模组</span>
+                                    <span>35 个</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-value" style="width: 7.78%"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span>辅助模组</span>
+                                    <span>174 个</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-value" style="width: 38.67%"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span>魔改模组</span>
+                                    <span>23 个</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-value" style="width: 5.11%"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span>LIB 模组</span>
+                                    <span>28 个</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-value" style="width: 6.22%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 pt-6 border-t border-light/10">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div>
+                                    <p class="font-bold mb-2">国创模组占比</p>
+                                    <div class="flex items-center">
+                                        <div class="w-32 h-32 rounded-full bg-primary/30 flex items-center justify-center">
+                                            <span class="text-3xl font-bold">40.89%</span>
+                                        </div>
+                                        <div class="ml-4">
+                                            <p class="text-sm text-light/70">共 184 个</p>
+                                            <p class="text-sm text-light/70">占本月新收录</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <p class="font-bold mb-2">MCreator 制作模组</p>
+                                    <div class="flex items-center">
+                                        <div class="w-32 h-32 rounded-full bg-secondary/30 flex items-center justify-center">
+                                            <span class="text-3xl font-bold">14.22%</span>
+                                        </div>
+                                        <div class="ml-4">
+                                            <p class="text-sm text-light/70">共 64 个</p>
+                                            <p class="text-sm text-light/70">占本月新收录</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <p class="font-bold mb-2">MCreator 国创模组</p>
+                                    <div class="flex items-center">
+                                        <div class="w-32 h-32 rounded-full bg-accent/30 flex items-center justify-center">
+                                            <span class="text-3xl font-bold">4.44%</span>
+                                        </div>
+                                        <div class="ml-4">
+                                            <p class="text-sm text-light/70">共 20 个</p>
+                                            <p class="text-sm text-light/70">占本月新收录</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 版本分布 -->
+                <div class="glass rounded-xl overflow-hidden mb-12">
+                    <div class="bg-primary/30 p-6">
+                        <h3 class="text-2xl font-bold">模组版本分布情况</h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <ul class="space-y-3">
+                                    <li class="flex justify-between items-center">
+                                        <span>支持 1.21 的模组</span>
+                                        <span class="font-bold">217 个</span>
+                                    </li>
+                                    <li class="flex justify-between items-center">
+                                        <span>支持 1.20 的模组</span>
+                                        <span class="font-bold">263 个</span>
+                                    </li>
+                                    <li class="flex justify-between items-center">
+                                        <span>支持 1.19 的模组</span>
+                                        <span class="font-bold">60 个</span>
+                                    </li>
+                                    <li class="flex justify-between items-center">
+                                        <span>支持 1.18 的模组</span>
+                                        <span class="font-bold">38 个</span>
+                                    </li>
+                                    <li class="flex justify-between items-center">
+                                        <span>支持 1.17 的模组</span>
+                                        <span class="font-bold">14 个</span>
+                                    </li>
+                                    <li class="flex justify-between items-center">
+                                        <span>支持 1.16 的模组</span>
+                                        <span class="font-bold">23 个</span>
+                                    </li>
+                                    <li class="flex justify-between items-center">
+                                        <span>支持 1.15 的模组</span>
+                                        <span class="font-bold">8 个</span>
+                                    </li>
+                                    <li class="flex justify-between items-center">
+                                        <span>支持 1.14 的模组</span>
+                                        <span class="font-bold">8 个</span>
+                                    </li>
+                                    <li class="flex justify-between items-center">
+                                        <span>支持 1.13 的模组</span>
+                                        <span class="font-bold">5 个</span>
+                                    </li>
+                                    <li class="flex justify-between items-center">
+                                        <span>支持 1.12 的模组</span>
+                                        <span class="font-bold">44 个</span>
+                                    </li>
+                                    <li class="flex justify-between items-center">
+                                        <span>支持 1.11 的模组</span>
+                                        <span class="font-bold">5 个</span>
+                                    </li>
+                                    <li class="flex justify-between items-center">
+                                        <span>支持 1.10 的模组</span>
+                                        <span class="font-bold">6 个</span>
+                                    </li>
+                                    <li class="flex justify-between items-center">
+                                        <span>支持 1.9 的模组</span>
+                                        <span class="font-bold">7 个</span>
+                                    </li>
+                                    <li class="flex justify-between items-center">
+                                        <span>支持 1.8 的模组</span>
+                                        <span class="font-bold">8 个</span>
+                                    </li>
+                                    <li class="flex justify-between items-center">
+                                        <span>支持 1.7 的模组</span>
+                                        <span class="font-bold">32 个</span>
+                                    </li>
+                                    <li class="flex justify-between items-center">
+                                        <span>支持 1.6 的模组</span>
+                                        <span class="font-bold">5 个</span>
+                                    </li>
+                                    <li class="flex justify-between items-center">
+                                        <span>支持 1.5 的模组</span>
+                                        <span class="font-bold">4 个</span>
+                                    </li>
+                                    <li class="flex justify-between items-center">
+                                        <span>支持 1.4 的模组</span>
+                                        <span class="font-bold">3 个</span>
+                                    </li>
+                                    <li class="flex justify-between items-center">
+                                        <span>支持 1.3 的模组</span>
+                                        <span class="font-bold">2 个</span>
+                                    </li>
+                                    <li class="flex justify-between items-center">
+                                        <span>支持 1.2 的模组</span>
+                                        <span class="font-bold">2 个</span>
+                                    </li>
+                                    <li class="flex justify-between items-center">
+                                        <span>支持 远古版本的模组</span>
+                                        <span class="font-bold">4 个</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div>
+                                <!-- 这里是版本分布的图表区域 -->
+                                <div class="h-[400px] bg-dark/30 rounded-lg p-6">
+                                    <h4 class="text-lg font-bold mb-4">版本分布统计图</h4>
+                                    <div class="h-full flex flex-col justify-center items-center">
+                                        <div class="w-full h-full relative">
+                                            <!-- 图表将通过JS渲染在这里 -->
+                                            <div class="absolute inset-0 flex items-center justify-center">
+                                                <div class="text-center">
+                                                    <div class="w-32 h-32 rounded-full border-8 border-primary/50 border-t-primary animate-spin mx-auto mb-4"></div>
+                                                    <p>加载图表中...</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 受访数排名 -->
+                <div class="glass rounded-xl overflow-hidden mb-12">
+                    <div class="bg-primary/30 p-6">
+                        <h3 class="text-2xl font-bold">受访数排名前 20</h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-3 max-h-[600px] overflow-y-auto pr-2">
+                            <div class="rank-item">
+                                <div class="rank-number">1</div>
+                                <div>
+                                    <p class="font-bold">MPEM</p>
+                                    <p class="text-sm text-light/70">受访 15000 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">2</div>
+                                <div>
+                                    <p class="font-bold">[20008] 绝区零·星见雅 (ZZZ Miyabi)</p>
+                                    <p class="text-sm text-light/70">受访 12310 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">3</div>
+                                <div>
+                                    <p class="font-bold">[19990] 辐射荒原：再行 (Radiation Zone: Reborn)</p>
+                                    <p class="text-sm text-light/70">受访 12188 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">4</div>
+                                <div>
+                                    <p class="font-bold">[20135] MITE魂环传说 (MITE-Legend)</p>
+                                    <p class="text-sm text-light/70">受访 12060 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">5</div>
+                                <div>
+                                    <p class="font-bold">[20118] 竹叶清 (Aotake Sweep)</p>
+                                    <p class="text-sm text-light/70">受访 10635 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">6</div>
+                                <div>
+                                    <p class="font-bold">[20123] Huanle的武器 (Huanle's weapons)</p>
+                                    <p class="text-sm text-light/70">受访 9071 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">7</div>
+                                <div>
+                                    <p class="font-bold">[20228] 机械动力：地理学 (Create: Geography)</p>
+                                    <p class="text-sm text-light/70">受访 8579 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">8</div>
+                                <div>
+                                    <p class="font-bold">[20244] 真正的力量 (True POWER)</p>
+                                    <p class="text-sm text-light/70">受访 8384 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">9</div>
+                                <div>
+                                    <p class="font-bold">[20111] Colorwheel</p>
+                                    <p class="text-sm text-light/70">受访 8290 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">10</div>
+                                <div>
+                                    <p class="font-bold">[20311] 无尽乐事 (Avaritia's Delight)</p>
+                                    <p class="text-sm text-light/70">受访 8166 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">11</div>
+                                <div>
+                                    <p class="font-bold">[20002] 长生诀 (Chang Sheng Jue)</p>
+                                    <p class="text-sm text-light/70">受访 8152 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">12</div>
+                                <div>
+                                    <p class="font-bold">[20223] 东方像素食堂 (TouhouPixelCanteen)</p>
+                                    <p class="text-sm text-light/70">受访 8083 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">13</div>
+                                <div>
+                                    <p class="font-bold">[20314] Touhou Little Maid: Spell</p>
+                                    <p class="text-sm text-light/70">受访 7822 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">14</div>
+                                <div>
+                                    <p class="font-bold">[20094] 通用机械：更多机器 (Mekanism: More Machine)</p>
+                                    <p class="text-sm text-light/70">受访 7315 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">15</div>
+                                <div>
+                                    <p class="font-bold">[20190] yyz的背包 (Yyz's Backpack)</p>
+                                    <p class="text-sm text-light/70">受访 7260 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">16</div>
+                                <div>
+                                    <p class="font-bold">[20333] CialloBlade</p>
+                                    <p class="text-sm text-light/70">受访 7063 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">17</div>
+                                <div>
+                                    <p class="font-bold">[19985] 强力假人 (Powerful Dummy)</p>
+                                    <p class="text-sm text-light/70">受访 6895 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">18</div>
+                                <div>
+                                    <p class="font-bold">[20098] Dark Doppelganger</p>
+                                    <p class="text-sm text-light/70">受访 6890 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">19</div>
+                                <div>
+                                    <p class="font-bold">[20066] 逃寄：无妄之灾 (SRP: Calamity Catastrophe Cataclysm)</p>
+                                    <p class="text-sm text-light/70">受访 6637 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">20</div>
+                                <div>
+                                    <p class="font-bold">[20306] 百年战争 (Hundred Years Warfare)</p>
+                                    <p class="text-sm text-light/70">受访 6529 次</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 收藏数排名 -->
+                <div class="glass rounded-xl overflow-hidden mb-12">
+                    <div class="bg-primary/30 p-6">
+                        <h3 class="text-2xl font-bold">收藏数排名前 20</h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-3 max-h-[600px] overflow-y-auto pr-2">
+                            <div class="rank-item">
+                                <div class="rank-number">1</div>
+                                <div>
+                                    <p class="font-bold">MPEM</p>
+                                    <p class="text-sm text-light/70">收藏 110 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">2</div>
+                                <div>
+                                    <p class="font-bold">[20314] Touhou Little Maid: Spell</p>
+                                    <p class="text-sm text-light/70">收藏 74 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">3</div>
+                                <div>
+                                    <p class="font-bold">[20228] 机械动力：地理学 (Create: Geography)</p>
+                                    <p class="text-sm text-light/70">收藏 66 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">4</div>
+                                <div>
+                                    <p class="font-bold">[20008] 绝区零·星见雅 (ZZZ Miyabi)</p>
+                                    <p class="text-sm text-light/70">收藏 65 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">5</div>
+                                <div>
+                                    <p class="font-bold">[20190] yyz的背包 (Yyz's Backpack)</p>
+                                    <p class="text-sm text-light/70">收藏 63 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">6</div>
+                                <div>
+                                    <p class="font-bold">[20306] 百年战争 (Hundred Years Warfare)</p>
+                                    <p class="text-sm text-light/70">收藏 54 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">7</div>
+                                <div>
+                                    <p class="font-bold">[20098] Dark Doppelganger</p>
+                                    <p class="text-sm text-light/70">收藏 52 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">8</div>
+                                <div>
+                                    <p class="font-bold">[20111] Colorwheel</p>
+                                    <p class="text-sm text-light/70">收藏 52 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">9</div>
+                                <div>
+                                    <p class="font-bold">[19985] 强力假人 (Powerful Dummy)</p>
+                                    <p class="text-sm text-light/70">收藏 52 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">10</div>
+                                <div>
+                                    <p class="font-bold">[20358] 摇曳花园 (Swaying Garden)</p>
+                                    <p class="text-sm text-light/70">收藏 50 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">11</div>
+                                <div>
+                                    <p class="font-bold">[20024] 数据包错误修复：重生 (Datapack Load Error Fix Reborn)</p>
+                                    <p class="text-sm text-light/70">收藏 46 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">12</div>
+                                <div>
+                                    <p class="font-bold">[20100] Hazen 'N Stuff</p>
+                                    <p class="text-sm text-light/70">收藏 42 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">13</div>
+                                <div>
+                                    <p class="font-bold">[20014] AI汉化器 (AILocalizer)</p>
+                                    <p class="text-sm text-light/70">收藏 39 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">14</div>
+                                <div>
+                                    <p class="font-bold">[20092] Forager's Insight</p>
+                                    <p class="text-sm text-light/70">收藏 38 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">15</div>
+                                <div>
+                                    <p class="font-bold">[20223] 东方像素食堂 (TouhouPixelCanteen)</p>
+                                    <p class="text-sm text-light/70">收藏 38 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">16</div>
+                                <div>
+                                    <p class="font-bold">[20226] 机械动力：超级管道 (Create: Hypertubes)</p>
+                                    <p class="text-sm text-light/70">收藏 37 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">17</div>
+                                <div>
+                                    <p class="font-bold">[20114] 良商 (HappyVillagers)</p>
+                                    <p class="text-sm text-light/70">收藏 36 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">18</div>
+                                <div>
+                                    <p class="font-bold">[20001] Twilight Forest - Aurora Palace Regeared</p>
+                                    <p class="text-sm text-light/70">收藏 36 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">19</div>
+                                <div>
+                                    <p class="font-bold">[20118] 竹叶清 (Aotake Sweep)</p>
+                                    <p class="text-sm text-light/70">收藏 35 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">20</div>
+                                <div>
+                                    <p class="font-bold">[20002] 长生诀 (Chang Sheng Jue)</p>
+                                    <p class="text-sm text-light/70">收藏 34 次</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 关注数排名 -->
+                <div class="glass rounded-xl overflow-hidden mb-12">
+                    <div class="bg-primary/30 p-6">
+                        <h3 class="text-2xl font-bold">关注数排名前 20</h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-3 max-h-[600px] overflow-y-auto pr-2">
+                            <div class="rank-item">
+                                <div class="rank-number">1</div>
+                                <div>
+                                    <p class="font-bold">[20008] 绝区零·星见雅 (ZZZ Miyabi)</p>
+                                    <p class="text-sm text-light/70">关注 14 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">2</div>
+                                <div>
+                                    <p class="font-bold">MPEM</p>
+                                    <p class="text-sm text-light/70">关注 10 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">3</div>
+                                <div>
+                                    <p class="font-bold">[20306] 百年战争 (Hundred Years Warfare)</p>
+                                    <p class="text-sm text-light/70">关注 9 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">4</div>
+                                <div>
+                                    <p class="font-bold">[20066] 逃寄：无妄之灾 (SRP: Calamity Catastrophe Cataclysm)</p>
+                                    <p class="text-sm text-light/70">关注 8 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">5</div>
+                                <div>
+                                    <p class="font-bold">[20240] AI Chat Mod</p>
+                                    <p class="text-sm text-light/70">关注 7 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">6</div>
+                                <div>
+                                    <p class="font-bold">[20314] Touhou Little Maid: Spell</p>
+                                    <p class="text-sm text-light/70">关注 7 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">7</div>
+                                <div>
+                                    <p class="font-bold">[20228] 机械动力：地理学 (Create: Geography)</p>
+                                    <p class="text-sm text-light/70">关注 7 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">8</div>
+                                <div>
+                                    <p class="font-bold">[20094] 通用机械：更多机器 (Mekanism: More Machine)</p>
+                                    <p class="text-sm text-light/70">关注 6 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">9</div>
+                                <div>
+                                    <p class="font-bold">[20166] 明日方舟家具 (ArknightsFurniture)</p>
+                                    <p class="text-sm text-light/70">关注 6 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">10</div>
+                                <div>
+                                    <p class="font-bold">[20311] 无尽乐事 (Avaritia's Delight)</p>
+                                    <p class="text-sm text-light/70">关注 5 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">11</div>
+                                <div>
+                                    <p class="font-bold">[20415] 1.12.2的快乐恶魂 (HappyGhast_on_1.12.2)</p>
+                                    <p class="text-sm text-light/70">关注 5 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">12</div>
+                                <div>
+                                    <p class="font-bold">[20065] Phayriosis Parasite Infection</p>
+                                    <p class="text-sm text-light/70">关注 5 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">13</div>
+                                <div>
+                                    <p class="font-bold">[20313] 瓦尔基里：轨道学 (VS Orbit)</p>
+                                    <p class="text-sm text-light/70">关注 5 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">14</div>
+                                <div>
+                                    <p class="font-bold">[20002] 长生诀 (Chang Sheng Jue)</p>
+                                    <p class="text-sm text-light/70">关注 5 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">15</div>
+                                <div>
+                                    <p class="font-bold">[19984] 无限堆叠 (InfiniStack)</p>
+                                    <p class="text-sm text-light/70">关注 4 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">16</div>
+                                <div>
+                                    <p class="font-bold">[20320] 自定义100天Boss (Custom 100-Day BOSS)</p>
+                                    <p class="text-sm text-light/70">关注 4 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">17</div>
+                                <div>
+                                    <p class="font-bold">[20241] 逃逸寄生体：重置</p>
+                                    <p class="text-sm text-light/70">关注 4 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">18</div>
+                                <div>
+                                    <p class="font-bold">[20321] 终焉图书馆 (EndingLibrary)</p>
+                                    <p class="text-sm text-light/70">关注 4 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">19</div>
+                                <div>
+                                    <p class="font-bold">[20092] Forager's Insight</p>
+                                    <p class="text-sm text-light/70">关注 4 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">20</div>
+                                <div>
+                                    <p class="font-bold">[20253] Improved Animations</p>
+                                    <p class="text-sm text-light/70">关注 4 次</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 红票数排名 -->
+                <div class="glass rounded-xl overflow-hidden mb-12">
+                    <div class="bg-primary/30 p-6">
+                        <h3 class="text-2xl font-bold">红票数排名前 20</h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-3 max-h-[600px] overflow-y-auto pr-2">
+                            <div class="rank-item">
+                                <div class="rank-number">1</div>
+                                <div>
+                                    <p class="font-bold">[20000] 百科艺术 (PaintingOfMCMOD)</p>
+                                    <p class="text-sm text-light/70">红票 20 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">2</div>
+                                <div>
+                                    <p class="font-bold">MPEM</p>
+                                    <p class="text-sm text-light/70">红票 16 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">3</div>
+                                <div>
+                                    <p class="font-bold">[20314] Touhou Little Maid: Spell</p>
+                                    <p class="text-sm text-light/70">红票 13 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">4</div>
+                                <div>
+                                    <p class="font-bold">[19990] 辐射荒原：再行 (Radiation Zone: Reborn)</p>
+                                    <p class="text-sm text-light/70">红票 11 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">5</div>
+                                <div>
+                                    <p class="font-bold">[20008] 绝区零·星见雅 (ZZZ Miyabi)</p>
+                                    <p class="text-sm text-light/70">红票 10 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">6</div>
+                                <div>
+                                    <p class="font-bold">[20024] 数据包错误修复：重生 (Datapack Load Error Fix Reborn)</p>
+                                    <p class="text-sm text-light/70">红票 9 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">7</div>
+                                <div>
+                                    <p class="font-bold">[20033] 山西骷髅 (Shanxi Skeleton)</p>
+                                    <p class="text-sm text-light/70">红票 8 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">8</div>
+                                <div>
+                                    <p class="font-bold">[20358] 摇曳花园 (Swaying Garden)</p>
+                                    <p class="text-sm text-light/70">红票 8 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">9</div>
+                                <div>
+                                    <p class="font-bold">[20055] 我蛮夷也 (Alien Day)</p>
+                                    <p class="text-sm text-light/70">红票 8 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">10</div>
+                                <div>
+                                    <p class="font-bold">[20240] AI Chat Mod</p>
+                                    <p class="text-sm text-light/70">红票 7 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">11</div>
+                                <div>
+                                    <p class="font-bold">[20001] Twilight Forest - Aurora Palace Regeared</p>
+                                    <p class="text-sm text-light/70">红票 7 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">12</div>
+                                <div>
+                                    <p class="font-bold">[20306] 百年战争 (Hundred Years Warfare)</p>
+                                    <p class="text-sm text-light/70">红票 7 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">13</div>
+                                <div>
+                                    <p class="font-bold">[20333] CialloBlade</p>
+                                    <p class="text-sm text-light/70">红票 7 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">14</div>
+                                <div>
+                                    <p class="font-bold">[20201] Make I18N Great Again</p>
+                                    <p class="text-sm text-light/70">红票 6 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">15</div>
+                                <div>
+                                    <p class="font-bold">[20066] 逃寄：无妄之灾 (SRP: Calamity Catastrophe Cataclysm)</p>
+                                    <p class="text-sm text-light/70">红票 6 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">16</div>
+                                <div>
+                                    <p class="font-bold">[20415] 1.12.2的快乐恶魂 (HappyGhast_on_1.12.2)</p>
+                                    <p class="text-sm text-light/70">红票 6 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">17</div>
+                                <div>
+                                    <p class="font-bold">[20311] 无尽乐事 (Avaritia's Delight)</p>
+                                    <p class="text-sm text-light/70">红票 6 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">18</div>
+                                <div>
+                                    <p class="font-bold">[20088] 传送门嬗变 (PortalTransform)</p>
+                                    <p class="text-sm text-light/70">红票 5 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">19</div>
+                                <div>
+                                    <p class="font-bold">[20176] 战争凋灵 (War Wither)</p>
+                                    <p class="text-sm text-light/70">红票 5 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">20</div>
+                                <div>
+                                    <p class="font-bold">[20200] Executive</p>
+                                    <p class="text-sm text-light/70">红票 5 次</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 短评数排名 -->
+                <div class="glass rounded-xl overflow-hidden mb-12">
+                    <div class="bg-primary/30 p-6">
+                        <h3 class="text-2xl font-bold">短评数排名前 20</h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-3 max-h-[600px] overflow-y-auto pr-2">
+                            <div class="rank-item">
+                                <div class="rank-number">1</div>
+                                <div>
+                                    <p class="font-bold">MPEM</p>
+                                    <p class="text-sm text-light/70">短评 66 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">2</div>
+                                <div>
+                                    <p class="font-bold">[20333] CialloBlade</p>
+                                    <p class="text-sm text-light/70">短评 38 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">3</div>
+                                <div>
+                                    <p class="font-bold">[20314] Touhou Little Maid: Spell</p>
+                                    <p class="text-sm text-light/70">短评 31 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">4</div>
+                                <div>
+                                    <p class="font-bold">[20190] yyz的背包 (Yyz's Backpack)</p>
+                                    <p class="text-sm text-light/70">短评 30 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">5</div>
+                                <div>
+                                    <p class="font-bold">[20000] 百科艺术 (PaintingOfMCMOD)</p>
+                                    <p class="text-sm text-light/70">短评 29 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">6</div>
+                                <div>
+                                    <p class="font-bold">[20311] 无尽乐事 (Avaritia's Delight)</p>
+                                    <p class="text-sm text-light/70">短评 27 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">7</div>
+                                <div>
+                                    <p class="font-bold">[20008] 绝区零·星见雅 (ZZZ Miyabi)</p>
+                                    <p class="text-sm text-light/70">短评 25 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">8</div>
+                                <div>
+                                    <p class="font-bold">[20111] Colorwheel</p>
+                                    <p class="text-sm text-light/70">短评 24 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">9</div>
+                                <div>
+                                    <p class="font-bold">[20033] 山西骷髅 (Shanxi Skeleton)</p>
+                                    <p class="text-sm text-light/70">短评 23 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">10</div>
+                                <div>
+                                    <p class="font-bold">[20244] 真正的力量 (True POWER)</p>
+                                    <p class="text-sm text-light/70">短评 22 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">11</div>
+                                <div>
+                                    <p class="font-bold">[19985] 强力假人 (Powerful Dummy)</p>
+                                    <p class="text-sm text-light/70">短评 21 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">12</div>
+                                <div>
+                                    <p class="font-bold">[20094] 通用机械：更多机器 (Mekanism: More Machine)</p>
+                                    <p class="text-sm text-light/70">短评 19 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">13</div>
+                                <div>
+                                    <p class="font-bold">[20306] 百年战争 (Hundred Years Warfare)</p>
+                                    <p class="text-sm text-light/70">短评 19 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">14</div>
+                                <div>
+                                    <p class="font-bold">[20100] Hazen 'N Stuff</p>
+                                    <p class="text-sm text-light/70">短评 18 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">15</div>
+                                <div>
+                                    <p class="font-bold">[20205] ZS Packet</p>
+                                    <p class="text-sm text-light/70">短评 18 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">16</div>
+                                <div>
+                                    <p class="font-bold">[20122] llpsw的丧尸乐园 (llpswZombie)</p>
+                                    <p class="text-sm text-light/70">短评 17 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">17</div>
+                                <div>
+                                    <p class="font-bold">[20130] Compat Structure</p>
+                                    <p class="text-sm text-light/70">短评 15 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">18</div>
+                                <div>
+                                    <p class="font-bold">[20125] Threateningly Mobs</p>
+                                    <p class="text-sm text-light/70">短评 14 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">19</div>
+                                <div>
+                                    <p class="font-bold">[20118] 竹叶清 (Aotake Sweep)</p>
+                                    <p class="text-sm text-light/70">短评 14 次</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-item">
+                                <div class="rank-number">20</div>
+                                <div>
+                                    <p class="font-bold">[20114] 良商 (HappyVillagers)</p>
+                                    <p class="text-sm text-light/70">短评 14 次</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    </body>
+    </html>
